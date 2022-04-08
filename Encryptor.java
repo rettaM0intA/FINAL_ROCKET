@@ -1,6 +1,15 @@
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Random;
+
+import javax.swing.text.AsyncBoxView.ChildLocator;
 
 import Enums.FileSelect;
 
@@ -13,6 +22,13 @@ public class Encryptor {
     File passwordsFile;
 
     int seed;
+
+    /**
+     * Creates an empty encryptor. Is unusable.
+     */
+    public Encryptor(){
+
+    }
 
     /**
      * Creates a new Encryptor with a seed of 0. Should only be called if the code has not been run yet.
@@ -80,22 +96,66 @@ public class Encryptor {
 
     }
 
-    public void toEncrypt(String input, FileSelect fileSelected){
+    public void toEncrypt(String input, FileSelect fileSelected) throws IOException{
 
-        File file;
+        File chosenFile;
+        
+        random = new Random(seed);
 
         if(fileSelected == FileSelect.astronaught){
-            file = astronaughtFile;
+            chosenFile = astronaughtFile;
         }else if(fileSelected == FileSelect.password){
-            file = passwordsFile;
-        }else if(fileSelected == FileSelect.rocket){
-            file = rocketFile;
+            chosenFile = passwordsFile;
+        }else{
+            chosenFile = rocketFile;
+        }
+
+        FileOutputStream fOutputStream = new FileOutputStream(chosenFile.getName());
+        DataOutputStream dOutputStream = new DataOutputStream(fOutputStream);
+
+        for(int i = 0; i < input.length(); i++){
+            dOutputStream.write(input.charAt(i) + random.nextInt(26));
         }
 
     }
 
-    public String getUnencrypted(FileSelect fileSelected, int LineNumber){
-        return "ERROR";
+    public String getUnencrypted(FileSelect fileSelected, int passwordNumber) throws IOException{
+
+        File chosenFile;    //The actual file that will be read from.
+        Byte currentByte = 0;   //the currently read byte.
+        int passwordSize;   //The size of the password that is to be read.
+        String output = "";     //The string that will be returned at the end of this method if no errors occur.
+
+        random = new Random(seed);
+
+        if(fileSelected == FileSelect.astronaught){
+            chosenFile = astronaughtFile;
+        }else if(fileSelected == FileSelect.password){
+            chosenFile = passwordsFile;
+        }else{
+            chosenFile = rocketFile;
+        }
+
+        FileInputStream fileInputStream = new FileInputStream(chosenFile.getName());
+        DataInputStream dataInputStream = new DataInputStream(fileInputStream);
+
+        try{
+        dataInputStream.readByte();
+        currentByte = dataInputStream.readByte();
+        }catch(EOFException EndedEarlyException){
+            throw new IOException();
+        }
+
+        passwordSize = currentByte.intValue();
+
+        for(int i = 0; i < passwordSize; i++){
+            currentByte = dataInputStream.readByte();
+            currentByte = (byte)((int)currentByte - random.nextInt(26));
+            output += currentByte.toString();
+        }
+        
+        return output;
+
     }
 
     public int getCurrentSeed(){
