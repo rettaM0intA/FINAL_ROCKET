@@ -18,7 +18,7 @@ public class PasswordCreator {
 
         if(password.charAt(0) == 'E' && password.charAt(1) == 'R' && password.charAt(2) == 'R' && password.charAt(3) == 'O' && password.charAt(4) == 'R'){
             GenerateAdminPassword();
-            encryptor.toEncrypt(adminPassword, FileSelect.password);
+            encryptor.toEncrypt(adminPassword, FileSelect.password); hi
         }
 
         return false;
