@@ -25,9 +25,9 @@ public class PasswordCreator {
             adminPassword = encryptor.getUnencrypted(FileSelect.password, 0);
         } catch (IOException FileReadIOException) {
 
-            GenerateAdminPassword();
+            GeneratePassword();
             try {
-                encryptor.toEncrypt(adminPassword, FileSelect.password);
+                encryptor.toEncrypt(adminPassword, FileSelect.password, 0);
             } catch (IOException FileWriteIOException) {
             }
             
@@ -36,14 +36,18 @@ public class PasswordCreator {
 
         return false;
     }
-    // */
 
-    public void GenerateAdminPassword(){
+    public void GeneratePassword(){
         int length = random.nextInt(70) + 19;
         adminPassword = "";
 
         for(int i = 0; i < length; i++){
-            adminPassword += (char) (random.nextInt(26) + 'a');
+            if(random.nextInt(2) == 1){
+                adminPassword += (char) (random.nextInt(26) + 'a');
+            }else{
+                adminPassword += (char) (random.nextInt(26) + 'A');
+            }
+            
         }
 
     }

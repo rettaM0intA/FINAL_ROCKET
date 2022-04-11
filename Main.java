@@ -14,19 +14,24 @@ public class Main {
         Encryptor encryptor = new Encryptor();
 
         try {
-            encryptor = new Encryptor(astroFileName, rocketFileName, passwordsFileName);
+            encryptor = new Encryptor(astroFileName, rocketFileName, passwordsFileName, 846293528);
         } catch (Exception FileAlreadyExistsException) {
             System.out.print(FileAlreadyExistsException.getMessage());
         }
 
         PasswordCreator passwordCreator = new PasswordCreator();
 
-        // passwordCreator.CreateAdminPassword(encryptor);
-
-        // passwordCreator.GenerateAdminPassword();
+        passwordCreator.CreateAdminPassword(encryptor);
 
 
-        System.out.print(passwordCreator.adminPassword + "\n" + encryptor.getCurrentSeed());
+        System.out.print(passwordCreator.adminPassword + "\n" + encryptor.getCurrentSeed() + "\n");
+
+        try {
+            System.out.print(encryptor.getUnencrypted(FileSelect.password, 0));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
     }
 
