@@ -148,6 +148,12 @@ public class Encryptor {
         //Write the length of the Input
         dOutputStream.writeByte((char)input.length() + random.nextInt(26));
 
+        if(itemNumber > 0){
+            for(int i = 0; i < itemNumber; i++){
+                int itemSize = Integer.parseInt(getUnencryptedSize(fileSelected, i));
+            }
+        }
+
         //Write all pieces of the Input
         for(int i = 0; i < input.length(); i++){
             dOutputStream.write(input.charAt(i) + random.nextInt(26));
@@ -155,6 +161,10 @@ public class Encryptor {
 
         dOutputStream.close();
 
+    }
+
+    private String getUnencryptedSize(FileSelect fileSelected, int itemNumber){
+        return null;
     }
 
     /**
@@ -171,7 +181,7 @@ public class Encryptor {
 
         File chosenFile;    //The actual file that will be read from.
         Byte currentByte = 0;   //the currently read byte.
-        int passwordSize;   //The size of the password that is to be read.
+        int encryptedDataSize;   //The size of the password that is to be read.
         String output = "";     //The string that will be returned at the end of this method if no errors occur.
 
         random = new Random(seed);
@@ -196,16 +206,32 @@ public class Encryptor {
             throw new IOException();
         }
 
-        passwordSize = currentByte.intValue();
+        encryptedDataSize = currentByte.intValue();
 
-        for(int i = 0; i < passwordSize; i++){
-            currentByte = dataInputStream.readByte();
-            currentByte = (byte)((int)currentByte - random.nextInt(26));
-            try{
-                output += Character.toString(currentByte);
-            }catch(IllegalArgumentException DidNotReadCorrectly){
-                dataInputStream.close();
-                return "Invalid seed";
+        if(itemNumber > 0){
+            for(int i = 0; i < itemNumber; i++){
+                output = "";
+                for(int j = 0; j < encryptedDataSize; j++){
+                    currentByte = dataInputStream.readByte();
+                    currentByte = (byte)((int)currentByte - random.nextInt(26));
+                    try{
+                        output += Character.toString(currentByte);
+                    }catch(IllegalArgumentException DidNotReadCorrectly){
+                        dataInputStream.close();
+                    return "Invalid seed";
+                    }
+                }
+            }
+        }else{
+            for(int i = 0; i < encryptedDataSize; i++){
+                currentByte = dataInputStream.readByte();
+                currentByte = (byte)((int)currentByte - random.nextInt(26));
+                try{
+                    output += Character.toString(currentByte);
+                }catch(IllegalArgumentException DidNotReadCorrectly){
+                    dataInputStream.close();
+                    return "Invalid seed";
+                }
             }
         }
 

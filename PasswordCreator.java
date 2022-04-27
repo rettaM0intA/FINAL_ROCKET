@@ -12,7 +12,15 @@ public class PasswordCreator {
            
     }
 
-    // /*
+    public boolean SetPassword(Encryptor encryptor, String password, int number){
+        try{
+            encryptor.toEncrypt(password, FileSelect.password, number);
+        } catch (IOException fileWriteException){
+
+        }
+        return false;
+    }
+
     /**
      * Will create an AdminPassword if one doesn't exist.
      * @param encryptor The encryptor with the user's seed that will be used for making the password.
@@ -26,6 +34,8 @@ public class PasswordCreator {
         } catch (IOException FileReadIOException) {
 
             GeneratePassword();
+            adminPassword += "Admin";
+
             try {
                 encryptor.toEncrypt(adminPassword, FileSelect.password, 0);
             } catch (IOException FileWriteIOException) {
@@ -47,9 +57,7 @@ public class PasswordCreator {
             }else{
                 adminPassword += (char) (random.nextInt(26) + 'A');
             }
-            
         }
-
     }
 
 }
