@@ -1,6 +1,10 @@
 public class RocketInfo {
     
     //Create variables here
+    String Fuel;
+    String Inventory;
+    
+
 
     /**
      * Put information for the rocket inside.
