@@ -1,6 +1,10 @@
 import java.util.Scanner;
 
 public class UserInput {
+
+    private Encryptor encryptor;
+
+    private String[] inputs = new String[11];
     
     private static String name = "";
     private static String address = "";
@@ -14,8 +18,12 @@ public class UserInput {
     private static Double pay;
     private static Double astronauts; //How many astronauts are going to be on the ship
     private static String confirmation = "";
+
+    public UserInput(Encryptor encryptor){
+        this.encryptor = encryptor;
+    }
     
-    public UserInput() {
+    public void newAstronaut() {
        Scanner keyboard = new Scanner(System.in);
        System.out.println("How many astronauts will be on this mission?");
        astronauts = keyboard.nextDouble();
@@ -24,39 +32,45 @@ public class UserInput {
 
        while(no){
        System.out.println("What is the astronauts name?");
-       name = keyboard.nextLine();
-       name = keyboard.nextLine();
+       inputs[0] = keyboard.nextLine();
+       keyboard.nextLine();
        System.out.println("What is the astronauts Email?");
-       email = keyboard.nextLine();
+       inputs[1] = keyboard.nextLine();
        System.out.println("What is the astronauts address?");
-       address = keyboard.nextLine();
+       inputs[2] = keyboard.nextLine();
        System.out.println("What is the astronauts phone number?");
-       phone = keyboard.nextLine();
+       inputs[3] = keyboard.nextLine();
        System.out.println("What is the astronauts date of birth?");
-       birth = keyboard.nextLine();
+       inputs[4] = keyboard.nextLine();
        System.out.println("What is the astronauts next of kin?");
-       kin = keyboard.nextLine();
+       inputs[5] = keyboard.nextLine();
        System.out.println("What is the astronauts rank?");
-       rank = keyboard.nextLine();
+       inputs[6] = keyboard.nextLine();
        System.out.println("What does the astronaut weigh?");
-       weight = keyboard.nextDouble();
+       inputs[7] = Double.toString(keyboard.nextDouble());
        System.out.println("What is the astronauts pay?");
-       pay = keyboard.nextDouble();
+       inputs[8] = Double.toString(keyboard.nextDouble());
        System.out.println("What is the astronauts social security number?");
-       snumber = keyboard.nextLine();
-       snumber = keyboard.nextLine();
+       inputs[9] = keyboard.nextLine();
 
+        boolean tryData = true;
 
-
+        while(tryData){
        //Display input information for verification.
-       System.out.println("The astronauts info: \nName: " + name + "\nEmail: " + email + "\nAddress: " + address +
-        "\nPhone number: " + phone + "\nDate of birth: " + birth + "\nNext of kin: " + kin + 
-        "\nRank: " + rank + "\nWeight " + weight + "\nPay rate: " + pay + "\nSocial security number: " + snumber);
+       System.out.println("The astronauts info: \nName: " + inputs[0] + "\nEmail: " + inputs[1] + "\nAddress: " + inputs[2] +
+        "\nPhone number: " + inputs[3] + "\nDate of birth: " + inputs[4] + "\nNext of kin: " + inputs[5] + 
+        "\nRank: " + inputs[6] + "\nWeight " + inputs[7] + "\nPay rate: " + inputs[8] + "\nSocial security number: " + inputs[9]);
 
         System.out.println("Is this information correct? \nY/N");
         confirmation = keyboard.nextLine();
-        if (Character.toLowerCase(confirmation.charAt(0)) == 'n'){
-            
+
+            if(confirmation.length() == 1 && (Character.toLowerCase(confirmation.charAt(0)) == 'y' || Character.toLowerCase(confirmation.charAt(0)) == 'n')){
+                tryData = false;
+            }
+        }
+        
+        if(Character.toLowerCase(confirmation.charAt(0)) == 'y'){
+            no = false;
         }
         
        }
