@@ -14,7 +14,7 @@ public class Main {
 
         Scanner keyboard = new Scanner(System.in);
 
-        String userInput = "";
+        String userInput = " ";
 
         Encryptor encryptor = new Encryptor();
 
@@ -31,18 +31,46 @@ public class Main {
 
         System.out.print(passwordCreator.adminPassword + "\n" + encryptor.getCurrentSeed() + "\n");
 
-        while(userInput.length() < 1 && Character.toUpperCase(userInput.charAt(0)) != 'Y' && Character.toUpperCase(userInput.charAt(0)) != 'N'){
-            System.out.print("do you want to make another User?\nY/N");
+        while(Character.toUpperCase(userInput.charAt(0)) != 'Y' && Character.toUpperCase(userInput.charAt(0)) != 'N'){
+            System.out.print("do you want to make another User?\nY/N\n");
             userInput = keyboard.nextLine();
         }
 
-        if(Character.toUpperCase(userInput.charAt(0)) != 'Y'){
-            System.out.print("Please enter name of the new user");
+        if(Character.toUpperCase(userInput.charAt(0)) == 'Y'){
+            System.out.print("Please enter name of the new user\n");
             userInput = keyboard.nextLine();
+
+            try {
+                encryptor.toEncrypt(userInput, FileSelect.astronaught, 0);
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.print("\nINVALID Position\n");
+            }
+        }
+
+        userInput = " ";
+
+        while(Character.toUpperCase(userInput.charAt(0)) != 'Y' && Character.toUpperCase(userInput.charAt(0)) != 'N'){
+            System.out.print("do you want to make another User?\nY/N\n");
+            userInput = keyboard.nextLine();
+        }
+        
+        if(Character.toUpperCase(userInput.charAt(0)) == 'Y'){
+            System.out.print("Please enter name of the new user\n");
+            userInput = keyboard.nextLine();
+
+            try {
+                encryptor.toEncrypt(userInput, FileSelect.astronaught, 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.print("\nINVALID Position\n");
+            }
         }
 
         try {
             System.out.print(encryptor.getUnencrypted(FileSelect.password, 0));
+            System.out.print("\n"+encryptor.getUnencrypted(FileSelect.astronaught, 0));
+            System.out.print("\n"+encryptor.getUnencrypted(FileSelect.astronaught, 1));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

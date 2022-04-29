@@ -16,7 +16,6 @@ public class PasswordCreator {
         try{
             encryptor.toEncrypt(password, FileSelect.password, number);
         } catch (IOException fileWriteException){
-
         }
         return false;
     }
@@ -34,7 +33,7 @@ public class PasswordCreator {
         } catch (IOException FileReadIOException) {
 
             GeneratePassword();
-            adminPassword += "Admin";
+            // adminPassword += "Admin";
 
             try {
                 encryptor.toEncrypt(adminPassword, FileSelect.password, 0);
