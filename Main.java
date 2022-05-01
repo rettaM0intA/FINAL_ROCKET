@@ -7,6 +7,23 @@ public class Main {
     
     public static void main(String[] args) {
 
+        Scanner keyboard = new Scanner(System.in);
+        String[] inputs = new String[10]; //Use slot 0 by default.
+        int seed = 0;
+
+        boolean active = true;
+        UserInput ui = new UserInput();
+
+        while(active){
+            //Call manual here
+
+            ui.EnterSeed();
+
+        }
+
+    }
+
+    private void testing(){
         
         String astroFileName = "AtronautInformation.dat";
         String rocketFileName = "RocketInformation.dat";
@@ -75,7 +92,6 @@ public class Main {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
     }
 
 }

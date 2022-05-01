@@ -4,6 +4,8 @@ import java.util.Random;
 import Enums.FileSelect;
 
 public class PasswordCreator {
+    
+    String fileName = "Passwords.dat";
 
     String adminPassword = "";
     Random random = new Random();

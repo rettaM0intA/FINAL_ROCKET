@@ -3,6 +3,9 @@ import java.util.Scanner;
 public class UserInput {
 
     private Encryptor encryptor;
+    private AstronautInfo astroInfo;
+    private RocketInfo rocketInfo;
+    private PasswordCreator passwordCreator;
 
     private String[] inputs = new String[11];
     
@@ -19,11 +22,44 @@ public class UserInput {
     private static Double astronauts; //How many astronauts are going to be on the ship
     private static String confirmation = "";
 
-    public UserInput(Encryptor encryptor){
-        this.encryptor = encryptor;
+    public UserInput(){
+        astroInfo = new AstronautInfo();
+        rocketInfo = new RocketInfo();
+        passwordCreator = new PasswordCreator();
+
+        encryptor = new Encryptor(astroInfo.fileName, rocketInfo.fileName, passwordCreator.fileName);
+    }
+
+    public UserInput(int seed){
+        astroInfo = new AstronautInfo();
+        rocketInfo = new RocketInfo();
+        passwordCreator = new PasswordCreator();
+
+        encryptor = new Encryptor(astroInfo.fileName, rocketInfo.fileName, passwordCreator.fileName), seed;
+    }
+
+    public boolean EnterSeed(){
+        
+        do {
+                
+            System.out.print("\nEnter the code given by the Admin.\n");
+            inputs[0] = keyboard.nextLine();
+
+            try{
+            seed = Integer.parseInt(inputs[0]);
+            } catch(NumberFormatException invalidInput){
+                System.out.print("\nInvalid input.");
+                EnterSeed();
+            }
+
+            if(seed < 0){
+                System.out.print("\nThe code must be a positive number.");
+            }
+
+        } while (seed <= 0);
     }
     
-    public void newAstronaut() {
+    public void NewAstronaut() {
        Scanner keyboard = new Scanner(System.in);
        System.out.println("How many astronauts will be on this mission?");
        astronauts = keyboard.nextDouble();
@@ -77,6 +113,10 @@ public class UserInput {
 
        
        keyboard.close();
+    }
+
+    public void NewRocket(){
+
     }
 
 }
