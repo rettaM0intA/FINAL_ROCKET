@@ -13,7 +13,7 @@ public class Main {
         String[] inputs = new String[10]; //Use slot 0 by default.
         int seed = 0;
 
-        boolean active = false;
+        boolean active = true;
         UserInput ui = new UserInput();
 
         while(active){
