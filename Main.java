@@ -1,93 +1,132 @@
+import java.io.IOException;
 import java.util.Scanner;
 
-public class Main {
+import Enums.FileSelect;
 
-    static UserInput userInput = new UserInput();
+public class Main {
     
     public static void main(String[] args) {
-        userInput.newAstronaut();
-    }
-    /*
-    import java.util.Scanner;
-import java.io.*;  //needed for file class
 
-public class Main {
-    public static void main(String[] args{
+        testing();
 
         Scanner keyboard = new Scanner(System.in);
-        String beginInput;
-        double secondInput;
-        //Two different input??? or should I use the same one?
+        String[] inputs = new String[10]; //Use slot 0 by default.
+        int seed = 0;
+
+        boolean active = false;
+        UserInput ui = new UserInput();
+
+        while(active){
+            //Call manual here
 
 
-        System.out.println("-Welcome to the SpaceZ space program-\nWould you like to: \n1-Login \n2-Create account");
-        beginInput = keyboard.nextLine();
+            //Has the user enter the seed. Does NOT check if seed is wrong.
+            ui.EnterSeed();
 
-        switch (beginInput){
-            case 1:
-            System.out.println("Enter Password:");
-            //Enter passwords and get accepted
-            //Make password v
-            break;
+            if(ui.IsAdmin()){
+                
+            }else if(ui.EmployeeLogin()){
 
-            case 2:
-            System.out.println("-Example text_");
-            // How do you create a account that the program can save and recongize?
-            break;
-
-            default: 
-            System.out.println("Please enter either 1 or 2");
-            // should it say somthing more professional? 
-            break;
-
-        }
-        
-        
-        
-        System.out.println("Please enter a number to where you want to go:")
-        // different wording??
-        System.out.println("1-Astronaut Data \n2-Rocket Data \n3-Open instruction manual \n4-Close program");
-        secondInput = keyboard.nextDouble();
-
-        //make is so when a certain number is selected it sends the user to the selected program
-        // just example input for now
-        // needs a way to send the user back if wanted (go back or undo)
-
-        switch (secondInput){
-            case 1:
-            System.out.println("What would you like to do? \nAccess data \nEdit data");
-            // sends the user to the information or a way to edit the info
-            // Change text???
-            break;
-
-            case 2:
-            System.out.println("What would you like to do? \nAccess data \nEdit data");
-            // sends use to rocket information file
-            break;
-
-            case 3:
-            public class ReadTextAsString{
-            
             }
-            
-            break;
 
-            case 4:
-            System.out.println("You entered 4.");
-            keyboard.close();
-            break;
-            // closes program
+            //Calls the main menu.
+            inputs[0] = String.valueOf(ui.MainMenu());
 
-            default:
-            System.out.println("Please enter a number between 1-4");
+            if(Integer.parseInt(inputs[0]) == 0){
+                //Call user editing method that asks for ADMIN password
+
+            }else if(Integer.parseInt(inputs[0]) == 1){
+                //Call Astronaut management menu
+
+            }else if(Integer.parseInt(inputs[0]) == 2){
+                //Call Rocket management menu
+
+            }else if(Integer.parseInt(inputs[0]) == 3){
+                //Call Configure Launch menu
+
+            }else if(Integer.parseInt(inputs[0]) == 4){
+                //Call Simulator
+
+            }else{
+                active = false;
+            }
 
         }
 
-        
-        
-        
+        return;
+
     }
 
-    */
+    private static void testing(){
+        
+        String astroFileName = "AtronautInformation.dat";
+        String rocketFileName = "RocketInformation.dat";
+        String passwordsFileName = "Passwords.dat";
+
+        Scanner keyboard = new Scanner(System.in);
+
+        String userInput = " ";
+
+        Encryptor encryptor = new Encryptor();
+
+        try {
+            encryptor = new Encryptor(astroFileName, rocketFileName, passwordsFileName, 12763827);
+        } catch (Exception FileAlreadyExistsException) {
+            System.out.print(FileAlreadyExistsException.getMessage());
+        }
+
+        PasswordCreator passwordCreator = new PasswordCreator();
+
+        passwordCreator.CreateAdminPassword(encryptor);
+
+
+        System.out.print(passwordCreator.adminPassword + "\n" + encryptor.getCurrentSeed() + "\n");
+
+        while(Character.toUpperCase(userInput.charAt(0)) != 'Y' && Character.toUpperCase(userInput.charAt(0)) != 'N'){
+            System.out.print("do you want to make another User?\nY/N\n");
+            userInput = keyboard.nextLine();
+        }
+
+        if(Character.toUpperCase(userInput.charAt(0)) == 'Y'){
+            System.out.print("Please enter name of the new user\n");
+            userInput = keyboard.nextLine();
+
+            try {
+                encryptor.toEncrypt(userInput, FileSelect.astronaught, 0);
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.print("\nINVALID Position\n");
+            }
+        }
+
+        //astro testing
+        userInput = " ";
+
+        while(Character.toUpperCase(userInput.charAt(0)) != 'Y' && Character.toUpperCase(userInput.charAt(0)) != 'N'){
+            System.out.print("do you want to make another User?\nY/N\n");
+            userInput = keyboard.nextLine();
+        }
+        
+        if(Character.toUpperCase(userInput.charAt(0)) == 'Y'){
+            System.out.print("Please enter name of the new user\n");
+            userInput = keyboard.nextLine();
+
+            try {
+                encryptor.toEncrypt(userInput, FileSelect.astronaught, 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.print("\nINVALID Position\n");
+            }
+        }
+
+        try {
+            System.out.print(encryptor.getUnencrypted(FileSelect.password, 0) + "\n");
+            System.out.print(encryptor.getUnencrypted(FileSelect.astronaught, 0) + "\n");
+            System.out.print(encryptor.getUnencrypted(FileSelect.astronaught, 1) + "\n");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
 }
