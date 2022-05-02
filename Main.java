@@ -58,6 +58,8 @@ public class Main {
     }
 
     private static void testing(){
+
+        UserInput ui = new UserInput();
         
         String astroFileName = "AtronautInformation.dat";
         String rocketFileName = "RocketInformation.dat";
@@ -82,12 +84,12 @@ public class Main {
 
         System.out.print(passwordCreator.adminPassword + "\n" + encryptor.getCurrentSeed() + "\n");
 
-        while(Character.toUpperCase(userInput.charAt(0)) != 'Y' && Character.toUpperCase(userInput.charAt(0)) != 'N'){
+        while(ui.YesOrNoChecker(userInput) == 3){
             System.out.print("do you want to make another User?\nY/N\n");
             userInput = keyboard.nextLine();
         }
 
-        if(Character.toUpperCase(userInput.charAt(0)) == 'Y'){
+        if(ui.YesOrNoChecker(userInput) == 1){
             System.out.print("Please enter name of the new user\n");
             userInput = keyboard.nextLine();
 
@@ -102,12 +104,12 @@ public class Main {
         //astro testing
         userInput = " ";
 
-        while(Character.toUpperCase(userInput.charAt(0)) != 'Y' && Character.toUpperCase(userInput.charAt(0)) != 'N'){
+        while(ui.YesOrNoChecker(userInput) == 3){
             System.out.print("do you want to make another User?\nY/N\n");
             userInput = keyboard.nextLine();
         }
         
-        if(Character.toUpperCase(userInput.charAt(0)) == 'Y'){
+        if(ui.YesOrNoChecker(userInput) == 1){
             System.out.print("Please enter name of the new user\n");
             userInput = keyboard.nextLine();
 

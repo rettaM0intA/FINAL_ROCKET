@@ -55,8 +55,10 @@ public class PasswordCreator {
         for(int i = 0; i < length; i++){
             if(random.nextInt(2) == 1){
                 adminPassword += (char) (random.nextInt(26) + 'a');
-            }else{
+            }else if(random.nextInt(2) == 1){
                 adminPassword += (char) (random.nextInt(26) + 'A');
+            }else{
+                adminPassword += (char) (random.nextInt(10));
             }
         }
     }
