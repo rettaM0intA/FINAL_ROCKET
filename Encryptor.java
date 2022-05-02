@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Random;
-
 import Enums.FileSelect;
 
 public class Encryptor {
@@ -133,7 +132,7 @@ public class Encryptor {
 
         File chosenFile;
 
-        String output = "";
+        String[] output = new String[itemNumber];
         int itemSize = 0;
         int offset = 0;
         byte[] writtingByte = new byte[1];
@@ -151,30 +150,67 @@ public class Encryptor {
         if(itemNumber > 0){
             for(int i = 0; i < itemNumber; i++){
                 itemSize = Integer.parseUnsignedInt(getUnencrypted(fileSelected, i+.5));
-                output += itemSize;
-                output += getUnencrypted(fileSelected, i);
+                
+                output[i] += getUnencrypted(fileSelected, i);
             }
-            offset += itemNumber;
         }
 
         FileOutputStream fOutputStream = new FileOutputStream(chosenFile);
         DataOutputStream dOutputStream = new DataOutputStream(fOutputStream);
 
-        //Write all pieces of the previous entries
-        for(int i = 0; i < output.length(); i++){
-            writtingByte[0] = (byte)(output.charAt(i));// + random.nextInt(26));
+        if(itemNumber > 0)
+        for(int i = 0; i < itemNumber; i++){
+
+            writtingByte[0] = (byte)((int)4 + random.nextInt(26));
             dOutputStream.write(writtingByte);
+            writtingByte[0] = (byte)((int)'A' + random.nextInt(26));
+            dOutputStream.write(writtingByte);
+            writtingByte[0] = (byte)((int)'l' + random.nextInt(26));
+            dOutputStream.write(writtingByte);
+            writtingByte[0] = (byte)((int)'e' + random.nextInt(26));
+            dOutputStream.write(writtingByte);
+            writtingByte[0] = (byte)((int)'x' + random.nextInt(26));
+            dOutputStream.write(writtingByte);
+
+        
+            
+        //     // output[i] = output[i].substring(4, output[i].length());
+
+        //     //write the length of the first previous entry.
+        //     writtingByte[0] = (byte)((int)output[i].length() + random.nextInt(26));
+        //     dOutputStream.write(writtingByte);
+
+
+        //     //Write all pieces of the previous entries
+        //     for(int j = 0; j < output[i].length(); j++){
+        //         writtingByte[0] = (byte)(output[i].charAt(j)+ random.nextInt(26));
+        //         dOutputStream.write(writtingByte);
+        //     }
+
+            random = new Random(seed);
         }
+
+        
+        writtingByte[0] = (byte)((int)4 + random.nextInt(26));
+        dOutputStream.write(writtingByte);
+        writtingByte[0] = (byte)((int)'A' + random.nextInt(26));
+        dOutputStream.write(writtingByte);
+        writtingByte[0] = (byte)((int)'l' + random.nextInt(26));
+        dOutputStream.write(writtingByte);
+        writtingByte[0] = (byte)((int)'e' + random.nextInt(26));
+        dOutputStream.write(writtingByte);
+        writtingByte[0] = (byte)((int)'x' + random.nextInt(26));
+        dOutputStream.write(writtingByte);
         
         //Write the length of the Input
-        writtingByte[0] = (byte)(input.length());// + random.nextInt(26));
-        dOutputStream.write(writtingByte);
+        // writtingByte[0] = (byte)((int)input.length() + random.nextInt(26));
+        // dOutputStream.write(writtingByte);
 
-        //Write all pieces of the Input
-        for(int i = 0; i < input.length(); i++){
-            writtingByte[0] = (byte)(input.charAt(i));// + random.nextInt(26));
-            dOutputStream.write(writtingByte);
-        }
+        // //Write all pieces of the Input
+        // for(int i = 0; i < input.length(); i++){
+        //     writtingByte[0] = (byte)(input.charAt(i) + random.nextInt(26));
+        //     dOutputStream.write(writtingByte);
+        // }
 
         dOutputStream.close();
 
@@ -212,7 +248,7 @@ public class Encryptor {
 
         try{
         // dataInputStream.readByte();
-        currentByte = (byte)((int)dataInputStream.readByte());// - random.nextInt(26));
+        currentByte = (byte)((int)dataInputStream.readByte() - random.nextInt(26));
         }catch(EOFException EndedEarlyException){
 
             dataInputStream.close();
@@ -237,7 +273,7 @@ public class Encryptor {
                         output = "";
                         for(int j = 0; j < encryptedDataSize; j++){
                             currentByte = dataInputStream.readByte();
-                            currentByte = (byte)((int)currentByte);// - random.nextInt(26));
+                            currentByte = (byte)((int)currentByte - random.nextInt(26));
                             try{
                                 output += Character.toString(currentByte);
                             }catch(IllegalArgumentException DidNotReadCorrectly){
@@ -245,8 +281,10 @@ public class Encryptor {
                             return "Invalid seed";
                             }
                         }
+                        if(i < itemNumber - 1);
+                        random = new Random(seed);
                         currentByte = dataInputStream.readByte();
-                        currentByte = (byte)((int)currentByte);// - random.nextInt(26));
+                        currentByte = (byte)((int)currentByte - random.nextInt(26));
                         encryptedDataSize = currentByte.intValue();
                     }
                     output = "";
@@ -268,7 +306,7 @@ public class Encryptor {
                 output = "";
                 for(int i = 0; i < encryptedDataSize; i++){
                     currentByte = dataInputStream.readByte();
-                    currentByte = (byte)((int)currentByte);// - random.nextInt(26));
+                    currentByte = (byte)((int)currentByte - random.nextInt(26));
                     try{
                         output += Character.toString(currentByte);
                     }catch(IllegalArgumentException DidNotReadCorrectly){
@@ -280,7 +318,7 @@ public class Encryptor {
         }else{
             for(int i = 0; i < encryptedDataSize; i++){
                 currentByte = dataInputStream.readByte();
-                currentByte = (byte)((int)currentByte);// - random.nextInt(26));
+                currentByte = (byte)((int)currentByte - random.nextInt(26));
                 try{
                     output += Character.toString(currentByte);
                 }catch(IllegalArgumentException DidNotReadCorrectly){

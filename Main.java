@@ -7,23 +7,57 @@ public class Main {
     
     public static void main(String[] args) {
 
+        testing();
+
         Scanner keyboard = new Scanner(System.in);
         String[] inputs = new String[10]; //Use slot 0 by default.
         int seed = 0;
 
-        boolean active = true;
+        boolean active = false;
         UserInput ui = new UserInput();
 
         while(active){
             //Call manual here
 
+
+            //Has the user enter the seed. Does NOT check if seed is wrong.
             ui.EnterSeed();
+
+            if(ui.IsAdmin()){
+                
+            }else if(ui.EmployeeLogin()){
+
+            }
+
+            //Calls the main menu.
+            inputs[0] = String.valueOf(ui.MainMenu());
+
+            if(Integer.parseInt(inputs[0]) == 0){
+                //Call user editing method that asks for ADMIN password
+
+            }else if(Integer.parseInt(inputs[0]) == 1){
+                //Call Astronaut management menu
+
+            }else if(Integer.parseInt(inputs[0]) == 2){
+                //Call Rocket management menu
+
+            }else if(Integer.parseInt(inputs[0]) == 3){
+                //Call Configure Launch menu
+
+            }else if(Integer.parseInt(inputs[0]) == 4){
+                //Call Simulator
+
+            }else{
+                active = false;
+            }
 
         }
 
+        return;
+
     }
 
-    private void testing(){
+    private static void testing(){
         
         String astroFileName = "AtronautInformation.dat";
         String rocketFileName = "RocketInformation.dat";
@@ -36,7 +70,7 @@ public class Main {
         Encryptor encryptor = new Encryptor();
 
         try {
-            encryptor = new Encryptor(astroFileName, rocketFileName, passwordsFileName, 846293528);
+            encryptor = new Encryptor(astroFileName, rocketFileName, passwordsFileName, 12763827);
         } catch (Exception FileAlreadyExistsException) {
             System.out.print(FileAlreadyExistsException.getMessage());
         }
@@ -65,6 +99,7 @@ public class Main {
             }
         }
 
+        //astro testing
         userInput = " ";
 
         while(Character.toUpperCase(userInput.charAt(0)) != 'Y' && Character.toUpperCase(userInput.charAt(0)) != 'N'){
@@ -85,9 +120,9 @@ public class Main {
         }
 
         try {
-            System.out.print(encryptor.getUnencrypted(FileSelect.password, 0));
-            System.out.print("\n"+encryptor.getUnencrypted(FileSelect.astronaught, 0));
-            System.out.print("\n"+encryptor.getUnencrypted(FileSelect.astronaught, 1));
+            System.out.print(encryptor.getUnencrypted(FileSelect.password, 0) + "\n");
+            System.out.print(encryptor.getUnencrypted(FileSelect.astronaught, 0) + "\n");
+            System.out.print(encryptor.getUnencrypted(FileSelect.astronaught, 1) + "\n");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

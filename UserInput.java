@@ -1,4 +1,7 @@
+import java.io.IOException;
 import java.util.Scanner;
+
+import Enums.FileSelect;
 
 public class UserInput {
 
@@ -6,6 +9,8 @@ public class UserInput {
     private AstronautInfo astroInfo;
     private RocketInfo rocketInfo;
     private PasswordCreator passwordCreator;
+
+    private Scanner keyboard = new Scanner(System.in);
 
     private String[] inputs = new String[11];
     
@@ -27,19 +32,55 @@ public class UserInput {
         rocketInfo = new RocketInfo();
         passwordCreator = new PasswordCreator();
 
-        encryptor = new Encryptor(astroInfo.fileName, rocketInfo.fileName, passwordCreator.fileName);
+        try{
+            encryptor = new Encryptor(astroInfo.fileName, rocketInfo.fileName, passwordCreator.fileName);
+        } catch (Exception FileAlreadyExistsException) {
+            System.out.print(FileAlreadyExistsException.getMessage());
+        }
     }
 
-    public UserInput(int seed){
-        astroInfo = new AstronautInfo();
-        rocketInfo = new RocketInfo();
-        passwordCreator = new PasswordCreator();
+    /**
+     * Call to use the main menu.
+     * @return a number 0-4 which means the chosen option.
+     * 0: wants to edit users
+     * 1: wants to edit astronauts
+     * 2: wants to edit rockets
+     * 3: wants to configure launch settings
+     * 4: wants to test a launch
+     * 5: wants to quit the program
+     * May add more later.
+     */
+    public int MainMenu(){
+        inputs[0] = "-1";
+        do {
+            System.out.print("\nMain menu. Please enter one of the following options.\n" + 
+            "0: Edit Users\n" + 
+            "1: Edit Astronauts\n" + 
+            "2: Edit Rockets\n" +
+            "3: Configure Simulation\n" + 
+            "4: Initiate Simulation (use 3 first)\n" + 
+            "5: Quit program\n");
+            inputs[0] = keyboard.nextLine();
+            try{
+                int test = Integer.parseInt(inputs[0]);
+                if(test < 0 || test > 5)
+                throw new NumberFormatException();
+            } catch(NumberFormatException invalidInput){
+                System.out.print("\nInvalid input.\nMake sure you enter only the number you want to select");
+                inputs[0] = "-1";
+            }
+        } while (Integer.parseInt(inputs[0]) < 0 || Integer.parseInt(inputs[0]) > 5);
 
-        encryptor = new Encryptor(astroInfo.fileName, rocketInfo.fileName, passwordCreator.fileName), seed;
+        return Integer.parseInt(inputs[0]);
     }
 
-    public boolean EnterSeed(){
+    /**
+     * Use to request the seed from the user.
+     */
+    public void EnterSeed(){
         
+        int seed = 0;
+
         do {
                 
             System.out.print("\nEnter the code given by the Admin.\n");
@@ -49,7 +90,6 @@ public class UserInput {
             seed = Integer.parseInt(inputs[0]);
             } catch(NumberFormatException invalidInput){
                 System.out.print("\nInvalid input.");
-                EnterSeed();
             }
 
             if(seed < 0){
@@ -60,7 +100,6 @@ public class UserInput {
     }
     
     public void NewAstronaut() {
-       Scanner keyboard = new Scanner(System.in);
        System.out.println("How many astronauts will be on this mission?");
        astronauts = keyboard.nextDouble();
 
@@ -119,4 +158,60 @@ public class UserInput {
 
     }
 
+    /**
+     * Use to check if the user is the ADMIN
+     * @return true if they are the admin. False if they are not the admin.
+     */
+    public boolean IsAdmin(){
+        inputs[0] = "-1";
+        
+        do{
+            System.out.print("Are you the admin?\nEnter Yes/No\n");
+            inputs[0] = keyboard.nextLine();
+            
+        }while(YesOrNoChecker(inputs[0]) != 3);
+
+        if(YesOrNoChecker(inputs[0]) == 1){
+
+            //add stuff for checking if the admin has the right info.
+            // if(){ 
+                return true;
+            // }
+
+        }
+        return false;
+    }
+
+    
+    public boolean EmployeeLogin() {
+        do{
+            System.out.print("Are you an employee?\nEnter Yes/No\n");
+            inputs[0] = keyboard.nextLine();
+            
+        }while(YesOrNoChecker(inputs[0]) != 3);
+
+        if(YesOrNoChecker(inputs[0]) == 1){
+
+            //add stuff for checking if the employee has the right info.
+            // if(){
+            //     return true;
+            // }
+        }
+
+        return false;
+    }
+
+    /**
+     * Use this to check an input for Y or N in the first position (0)
+     * @param input the string you want to test.
+     * @return 1: is Y  2: is N  3: is something else
+     */
+    public int YesOrNoChecker(String input){
+        if(Character.toUpperCase(input.charAt(0)) != 'Y')
+        return 1;
+        else if(Character.toUpperCase(input.charAt(0)) != 'N')
+        return 2;
+        else
+        return 3;
+    }
 }

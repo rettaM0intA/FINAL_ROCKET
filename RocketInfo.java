@@ -1,7 +1,7 @@
 public class RocketInfo {
     
     //Create variables here
-    String fFileName = "RocketInformation.dat";
+    String fileName = "RocketInformation.dat";
     
     /**
      * Put information for the rocket inside.
