@@ -7,7 +7,7 @@ public class Main {
     
     public static void main(String[] args) {
 
-        testing();
+        // testing();
 
         Scanner keyboard = new Scanner(System.in);
         String[] inputs = new String[10]; //Use slot 0 by default.
