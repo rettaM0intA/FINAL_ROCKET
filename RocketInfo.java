@@ -1,16 +1,17 @@
 public class RocketInfo {
     
     //Create variables here
-    String Fuel;
-    String Inventory;
+    String fileName = "RocketInformation.dat";
     
-
-
     /**
      * Put information for the rocket inside.
      * @param input First input
      */
-    public RocketInfo(String input){
+    public RocketInfo(){
+
+    }
+
+    public void CreateRocket(String[] inputs){
 
     }
 
