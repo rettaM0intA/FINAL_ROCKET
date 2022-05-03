@@ -207,6 +207,9 @@ public class UserInput {
      * @return 1: is Y  2: is N  3: is something else
      */
     public int YesOrNoChecker(String input){
+        if(input.length() < 1){
+            return 3;
+        }
         if(Character.toUpperCase(input.charAt(0)) == 'Y')
         return 1;
         else if(Character.toUpperCase(input.charAt(0)) == 'N')

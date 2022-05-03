@@ -54,13 +54,17 @@ public class PasswordCreator {
 
         for(int i = 0; i < length; i++){
             if(random.nextInt(2) == 1){
-                adminPassword += (char) (random.nextInt(26) + 'a');
+                adminPassword += (char) (random.nextInt(25) + 'a');
             }else if(random.nextInt(2) == 1){
-                adminPassword += (char) (random.nextInt(26) + 'A');
-            }else{
-                adminPassword += (char) (random.nextInt(10));
+                adminPassword += (char) (random.nextInt(25) + 'A');
+            }else if(random.nextInt(2) == 1){
+                adminPassword += (random.nextInt(10) + 1);
+            }else if(random.nextInt(2) == 1){
+                adminPassword += (char) (random.nextInt(4) + '!');
             }
         }
+
+        System.out.print("\n password: " + adminPassword + "\n");
     }
 
 }
