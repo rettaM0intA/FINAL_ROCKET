@@ -47,7 +47,10 @@ public class Main {
             }else if(Integer.parseInt(inputs[0]) == 4){
                 //Call Simulator
 
-            }else{
+            }else if(Integer.parseInt(inputs[0]) == 5){
+                // open User manual
+            }
+            else{
                 active = false;
             }
 

@@ -47,9 +47,13 @@ public class UserInput {
      * 2: wants to edit rockets
      * 3: wants to configure launch settings
      * 4: wants to test a launch
-     * 5: wants to quit the program
+     * 5: wants to open User manual
+     * 6: wants to quit the program
      * May add more later.
      */
+    // TODO make is so when 5 is entered the program opens the User Manual
+
+    
     public int MainMenu(){
         inputs[0] = "-1";
         do {
@@ -59,17 +63,18 @@ public class UserInput {
             "2: Edit Rockets\n" +
             "3: Configure Simulation\n" + 
             "4: Initiate Simulation (use 3 first)\n" + 
-            "5: Quit program\n");
+            "5: Open User Manual\n" +
+            "6: Quit Program\n");
             inputs[0] = keyboard.nextLine();
             try{
                 int test = Integer.parseInt(inputs[0]);
-                if(test < 0 || test > 5)
+                if(test < 0 || test > 6)
                 throw new NumberFormatException();
             } catch(NumberFormatException invalidInput){
                 System.out.print("\nInvalid input.\nMake sure you enter only the number you want to select");
                 inputs[0] = "-1";
             }
-        } while (Integer.parseInt(inputs[0]) < 0 || Integer.parseInt(inputs[0]) > 5);
+        } while (Integer.parseInt(inputs[0]) < 0 || Integer.parseInt(inputs[0]) > 6);
 
         return Integer.parseInt(inputs[0]);
     }
@@ -207,9 +212,9 @@ public class UserInput {
      * @return 1: is Y  2: is N  3: is something else
      */
     public int YesOrNoChecker(String input){
-        if(Character.toUpperCase(input.charAt(0)) != 'Y')
+        if(Character.toUpperCase(input.charAt(0)) == 'Y')
         return 1;
-        else if(Character.toUpperCase(input.charAt(0)) != 'N')
+        else if(Character.toUpperCase(input.charAt(0)) == 'N')
         return 2;
         else
         return 3;
