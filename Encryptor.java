@@ -13,7 +13,7 @@ public class Encryptor {
     
     Random random;
 
-    int randomChange = 4;
+    int randomChange = 1;
 
     File astronaughtFile;
     File rocketFile;
@@ -116,6 +116,10 @@ public class Encryptor {
         }
 
         this.seed = seed;
+
+        Random randoma = new Random(seed);
+
+        // randomChange = randoma.nextInt(4);
         
         if(errorCodes.length() > 0){
             throw new Exception(errorCodes);
@@ -138,8 +142,6 @@ public class Encryptor {
         String[] output = new String[itemNumber];
         int itemSize = 0;
         byte[] writtingByte = new byte[1];
-        
-        random = new Random(seed);
 
         if(fileSelected == FileSelect.astronaught){
             chosenFile = astronaughtFile;
@@ -154,7 +156,7 @@ public class Encryptor {
                 output[i] = "";
                 // itemSize = Integer.parseUnsignedInt(getUnencrypted(fileSelected, i+.5));
                 
-                output[i] += getUnencrypted(fileSelected, i) + " ";
+                output[i] += getUnencrypted(fileSelected, i) + "";
             }
         }
 
@@ -162,7 +164,7 @@ public class Encryptor {
         DataOutputStream dOutputStream = new DataOutputStream(fOutputStream);
 
         if(output.length > 0){
-            // for(int i = 0; i < itemNumber; i++){
+            for(int i = 0; i < itemNumber; i++){
                 
                 // output[i] = output[i].substring(4, output[i].length());
 
@@ -172,26 +174,27 @@ public class Encryptor {
 
                 // output[0] = "4Alex";
 
-                writtingByte[0] = (byte)((int)output[0].length() + random.nextInt(randomChange));
+                writtingByte[0] = (byte)(output[i].length());
+                dOutputStream.write(writtingByte);
 
                 //Write all pieces of the previous entries
-                for(int j = 0; j < output[0].length(); j++){
-                    writtingByte[0] = (byte)((int)output[0].charAt(j) + random.nextInt(randomChange));
+                for(int j = 0; j < output[i].length(); j++){
+                    writtingByte[0] = (byte)((int)output[i].charAt(j) + (randomChange));
                     // writtingByte[0] = (byte)(output[0].charAt(j));
                     dOutputStream.write(writtingByte);
                 }
 
-            // }
+            }
         }
         
         
         //Write the length of the Input
-        writtingByte[0] = (byte)((int)input.length() + random.nextInt(randomChange));
+        writtingByte[0] = (byte)(input.length());
         dOutputStream.write(writtingByte);
 
         //Write all pieces of the Input
         for(int i = 0; i < input.length(); i++){
-            writtingByte[0] = (byte)((int)input.charAt(i) + random.nextInt(randomChange));
+            writtingByte[0] = (byte)((int)input.charAt(i) + (randomChange));
             // writtingByte[0] = (byte)(input.charAt(i));
             dOutputStream.write(writtingByte);
         }
@@ -216,13 +219,9 @@ public class Encryptor {
 
         String output = "";     //The string that will be returned at the end of this method if no errors occur.
 
-        random = new Random(seed);
-
-        random.nextInt(randomChange);
-
         for(int i = 0; i < ReadFromFile(fileSelected, itemNumber).length; i++){
 
-        output += Character.toString((char)(((int)ReadFromFile(fileSelected, itemNumber)[i]) - random.nextInt(randomChange)));
+        output += Character.toString((char)(((int)ReadFromFile(fileSelected, itemNumber)[i]) - (randomChange)));
 
         }
 
@@ -230,11 +229,11 @@ public class Encryptor {
 
     }
 
-    public Byte[] ReadFromFile(FileSelect fileSelected, double itemNumber) throws IOException{
+    public byte[] ReadFromFile(FileSelect fileSelected, double itemNumber) throws IOException{
 
         File chosenFile;    //The actual file that will be read from.
-        Byte currentByte = 0;   //the currently read byte.
-        int encryptedDataSize;   //The size of the password that is to be read.
+        byte currentByte = 0;   //the currently read byte.
+        int encryptedDataSize = 0;   //The size of the password that is to be read.
 
         random = new Random(seed);
 
@@ -250,51 +249,74 @@ public class Encryptor {
         DataInputStream dataInputStream = new DataInputStream(fileInputStream);
 
         try{
-            encryptedDataSize = ((int)dataInputStream.readByte() - random.nextInt(randomChange));
+            encryptedDataSize = ((int)dataInputStream.readByte());// - (randomChange));
         }catch(EOFException EndedEarlyException){
             dataInputStream.close();
             throw new IOException();
         }
 
-        Byte[] output = new Byte[encryptedDataSize];     //The string that will be returned at the end of this method if no errors occur.
+        byte[] output = new byte[encryptedDataSize];     //The string that will be returned at the end of this method if no errors occur.
 
         if(itemNumber != 0){
             if(itemNumber % 1 == 0.5){
-                try{ 
-                    output[0] = currentByte;
-                }catch(IllegalArgumentException DidNotReadCorrectly){
-                    dataInputStream.close();
-                    throw DidNotReadCorrectly;
-                }
-                dataInputStream.close();
-                return output;
-            }else{
-                for(int i = 0; i < itemNumber; i++){
-                    
-                    for(int j = 0; j < encryptedDataSize; j++){
-                        currentByte = dataInputStream.readByte();
-                    }
-
-                    currentByte = (byte)((int)currentByte);
-                    encryptedDataSize = currentByte.intValue();
-
-                }
-                
-                for(int i = 0; i < encryptedDataSize; i++){
-                    try{
-                        currentByte = dataInputStream.readByte();
-                    }catch(EOFException endedEarly){
-                        dataInputStream.close();
-                        return new Byte[0];
-                    }
-
-                    try{
-                        output[i] = currentByte;
+                if(itemNumber == 0.5){
+                    output = new byte[1];
+                    try{ 
+                        output[0] = currentByte;
                     }catch(IllegalArgumentException DidNotReadCorrectly){
                         dataInputStream.close();
                         throw DidNotReadCorrectly;
                     }
+                    dataInputStream.close();
+                    return output;
+                }else{
+                    for(int i = 0; i < itemNumber-.5; i++){
+                        for(int j = 0; j < encryptedDataSize + 1; j++){
+                            currentByte = dataInputStream.readByte();
+                        }
+                        
+                    }
+
+                    output[0] = currentByte;
+
+                    dataInputStream.close();
+                    return output;
                 }
+            }else{
+                
+                // try{
+                    for(int i = 0; i < itemNumber; i++){
+                        for(int j = 0; j < encryptedDataSize + 1; j++){
+                            currentByte = dataInputStream.readByte();
+                        }
+
+                        encryptedDataSize = currentByte;
+                        
+                    }
+
+
+                // }catch(EOFException nothingInLocation){
+                //     dataInputStream.close();
+                //     output = new Byte[1];
+                //     output[0] = 0;
+                //     return output;
+                // }
+
+                // encryptedDataSize = ReadFromFile(fileSelected, itemNumber+0.5)[0];
+
+                output = new byte[encryptedDataSize];
+                
+                // for(int i = 0; i < encryptedDataSize; i++){
+                    // try{
+                    //     currentByte = dataInputStream.readByte();
+                    // }catch(EOFException endedEarly){
+                    //     //return the expected sized output
+                    //     dataInputStream.close();
+                    //     return output;
+                    // }
+
+                    dataInputStream.read(output, 0, encryptedDataSize);
+                // }
             }
         }else{
             for(int i = 0; i < encryptedDataSize; i++){

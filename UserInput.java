@@ -1,3 +1,4 @@
+import java.io.EOFException;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -169,7 +170,7 @@ public class UserInput {
             System.out.print("Are you the admin?\nEnter Yes/No\n");
             inputs[0] = keyboard.nextLine();
             
-        }while(YesOrNoChecker(inputs[0]) != 3);
+        }while(YesOrNoChecker(inputs[0]) == 3);
 
         if(YesOrNoChecker(inputs[0]) == 1){
 
@@ -188,16 +189,38 @@ public class UserInput {
             System.out.print("Are you an employee?\nEnter Yes/No\n");
             inputs[0] = keyboard.nextLine();
             
-        }while(YesOrNoChecker(inputs[0]) != 3);
+        }while(YesOrNoChecker(inputs[0]) == 3);
 
         if(YesOrNoChecker(inputs[0]) == 1){
 
-            //add stuff for checking if the employee has the right info.
+            boolean counterOn = true;
+            int passwordAmount = 0;
+
+            //Find out how many passwords there are by reading passwords until there is no password found.
+            try{
+                try{
+                while(counterOn){
+                    encryptor.ReadFromFile(FileSelect.password, passwordAmount+1);
+                    passwordAmount += 1;
+                }
+                }catch(EOFException amountReached){
+                    throw new IOException();
+                } 
+            }catch(IOException amountReached){
+                //This will occur when the end of the file is reached.
+            }
+
+            for(int i = 0; i < passwordAmount; i++)
             // if(){
             //     return true;
             // }
-        }
 
+            System.out.print("Invalid login code.");
+            return false;
+            
+        }
+        
+        System.out.print("\nThen get off.");
         return false;
     }
 

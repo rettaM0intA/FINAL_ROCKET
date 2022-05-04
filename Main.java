@@ -7,13 +7,10 @@ public class Main {
     
     public static void main(String[] args) {
 
-        testing();
-
         Scanner keyboard = new Scanner(System.in);
         String[] inputs = new String[10]; //Use slot 0 by default.
-        int seed = 0;
 
-        boolean active = false;
+        boolean active = true;
         UserInput ui = new UserInput();
 
         while(active){
@@ -27,6 +24,8 @@ public class Main {
                 
             }else if(ui.EmployeeLogin()){
 
+            }else{
+                return;
             }
 
             //Calls the main menu.
@@ -84,23 +83,8 @@ public class Main {
 
         System.out.print(passwordCreator.adminPassword + "\n" + encryptor.getCurrentSeed() + "\n");
 
-        while(ui.YesOrNoChecker(userInput) == 3){
-            System.out.print("do you want to make another User?\nY/N\n");
-            userInput = keyboard.nextLine();
-        }
 
-        if(ui.YesOrNoChecker(userInput) == 1){
-            System.out.print("Please enter name of the new user\n");
-            userInput = keyboard.nextLine();
-
-            try {
-                encryptor.toEncrypt(userInput, FileSelect.astronaught, 0);
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.out.print("\nINVALID Position\n");
-            }
-        }
-
+        for(int i = 0; i < 4; i++){
         //astro testing
         userInput = " ";
 
@@ -114,17 +98,21 @@ public class Main {
             userInput = keyboard.nextLine();
 
             try {
-                encryptor.toEncrypt(userInput, FileSelect.astronaught, 1);
+                encryptor.toEncrypt(userInput, FileSelect.astronaught, i);
             } catch (IOException e) {
                 e.printStackTrace();
                 System.out.print("\nINVALID Position\n");
             }
         }
 
+        }   
+
         try {
             System.out.print(encryptor.getUnencrypted(FileSelect.password, 0) + "\n");
             System.out.print(encryptor.getUnencrypted(FileSelect.astronaught, 0) + "\n");
             System.out.print(encryptor.getUnencrypted(FileSelect.astronaught, 1) + "\n");
+            System.out.print(encryptor.getUnencrypted(FileSelect.astronaught, 2) + "\n");
+            System.out.print(encryptor.getUnencrypted(FileSelect.astronaught, 3) + "\n");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
