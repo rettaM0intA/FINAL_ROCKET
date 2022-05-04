@@ -3,6 +3,7 @@ import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Random;
@@ -11,6 +12,8 @@ import Enums.FileSelect;
 public class Encryptor {
     
     Random random;
+
+    int randomChange = 1;
 
     File astronaughtFile;
     File rocketFile;
@@ -113,6 +116,10 @@ public class Encryptor {
         }
 
         this.seed = seed;
+
+        Random randoma = new Random(seed);
+
+        // randomChange = randoma.nextInt(4);
         
         if(errorCodes.length() > 0){
             throw new Exception(errorCodes);
@@ -132,14 +139,11 @@ public class Encryptor {
 
         File chosenFile;
 
-        String[] output = new String[itemNumber];
         int itemSize = 0;
-        int offset = 0;
         byte[] writtingByte = new byte[1];
-        
-        random = new Random(seed);
+        int existingEntryAmount = 0;
 
-        if(fileSelected == FileSelect.astronaught){
+        if(fileSelected == FileSelect.astronaut){
             chosenFile = astronaughtFile;
         }else if(fileSelected == FileSelect.password){
             chosenFile = passwordsFile;
@@ -147,73 +151,103 @@ public class Encryptor {
             chosenFile = rocketFile;
         }
 
-        if(itemNumber > 0){
-            for(int i = 0; i < itemNumber; i++){
-                itemSize = Integer.parseUnsignedInt(getUnencrypted(fileSelected, i+.5));
+        try{
+            try{
+            while(true){
+                this.ReadFromFile(fileSelected, existingEntryAmount);
+                existingEntryAmount += 1;
+            }
+            }catch(EOFException amountReached){
+                // System.out.print("\n" + existingEntryAmount + "\n"); //uncomment to see how many exist when code is ran.
+                throw new IOException();
                 
-                output[i] += getUnencrypted(fileSelected, i);
+            } 
+        }catch(IOException amountReached){
+            //This will occur when the end of the file is reached.
+            // System.out.print("\n" + existingEntryAmount + "\n"); //uncomment to see how many exist when code is ran.
+        }
+
+        String[] output = new String[existingEntryAmount];
+
+        if(existingEntryAmount > 0){
+            for(int i = 0; i < existingEntryAmount; i++){
+                output[i] = "";
+                // itemSize = Integer.parseUnsignedInt(getUnencrypted(fileSelected, i+.5));
+                
+                output[i] += getUnencrypted(fileSelected, i) + "";
             }
         }
 
         FileOutputStream fOutputStream = new FileOutputStream(chosenFile);
         DataOutputStream dOutputStream = new DataOutputStream(fOutputStream);
 
-        if(itemNumber > 0)
-        for(int i = 0; i < itemNumber; i++){
+        if(output.length > 0 && itemNumber > 0){
+            for(int i = 0; i < itemNumber; i++){
+                
+                // output[i] = output[i].substring(4, output[i].length());
 
-            writtingByte[0] = (byte)((int)4 + random.nextInt(26));
-            dOutputStream.write(writtingByte);
-            writtingByte[0] = (byte)((int)'A' + random.nextInt(26));
-            dOutputStream.write(writtingByte);
-            writtingByte[0] = (byte)((int)'l' + random.nextInt(26));
-            dOutputStream.write(writtingByte);
-            writtingByte[0] = (byte)((int)'e' + random.nextInt(26));
-            dOutputStream.write(writtingByte);
-            writtingByte[0] = (byte)((int)'x' + random.nextInt(26));
-            dOutputStream.write(writtingByte);
+                // //write the length of the first previous entry.
+                // writtingByte[0] = (byte)((int)output[i].length() + random.nextInt(randomChange));
+                // dOutputStream.write(writtingByte);
 
-        
-            
-        //     // output[i] = output[i].substring(4, output[i].length());
+                // output[0] = "4Alex";
 
-        //     //write the length of the first previous entry.
-        //     writtingByte[0] = (byte)((int)output[i].length() + random.nextInt(26));
-        //     dOutputStream.write(writtingByte);
+                writtingByte[0] = (byte)(output[i].length());
+                dOutputStream.write(writtingByte);
 
+                //Write all pieces of the previous entries
+                for(int j = 0; j < output[i].length(); j++){
+                    writtingByte[0] = (byte)((int)output[i].charAt(j) + (randomChange));
+                    // writtingByte[0] = (byte)(output[0].charAt(j));
+                    dOutputStream.write(writtingByte);
+                }
 
-        //     //Write all pieces of the previous entries
-        //     for(int j = 0; j < output[i].length(); j++){
-        //         writtingByte[0] = (byte)(output[i].charAt(j)+ random.nextInt(26));
-        //         dOutputStream.write(writtingByte);
-        //     }
-
-            random = new Random(seed);
+            }
         }
 
+        if(input.length() > 0){
         
-        writtingByte[0] = (byte)((int)4 + random.nextInt(26));
-        dOutputStream.write(writtingByte);
-        writtingByte[0] = (byte)((int)'A' + random.nextInt(26));
-        dOutputStream.write(writtingByte);
-        writtingByte[0] = (byte)((int)'l' + random.nextInt(26));
-        dOutputStream.write(writtingByte);
-        writtingByte[0] = (byte)((int)'e' + random.nextInt(26));
-        dOutputStream.write(writtingByte);
-        writtingByte[0] = (byte)((int)'x' + random.nextInt(26));
-        dOutputStream.write(writtingByte);
-        
-        //Write the length of the Input
-        // writtingByte[0] = (byte)((int)input.length() + random.nextInt(26));
-        // dOutputStream.write(writtingByte);
+            //Write the length of the Input
+            writtingByte[0] = (byte)(input.length());
+            dOutputStream.write(writtingByte);
 
-        // //Write all pieces of the Input
-        // for(int i = 0; i < input.length(); i++){
-        //     writtingByte[0] = (byte)(input.charAt(i) + random.nextInt(26));
-        //     dOutputStream.write(writtingByte);
-        // }
+            //Write all pieces of the Input
+            for(int i = 0; i < input.length(); i++){
+                writtingByte[0] = (byte)((int)input.charAt(i) + (randomChange));
+                // writtingByte[0] = (byte)(input.charAt(i));
+                dOutputStream.write(writtingByte);
+            }
 
+        }
+
+            
+        if(itemNumber < existingEntryAmount-1){
+            
+            for(int i = itemNumber; i < existingEntryAmount; i++){
+                
+                // output[i] = output[i].substring(4, output[i].length());
+
+                // //write the length of the first previous entry.
+                // writtingByte[0] = (byte)((int)output[i].length() + random.nextInt(randomChange));
+                // dOutputStream.write(writtingByte);
+
+                // output[0] = "4Alex";
+
+                writtingByte[0] = (byte)(output[i].length());
+                dOutputStream.write(writtingByte);
+
+                //Write all pieces of the previous entries
+                for(int j = 0; j < output[i].length(); j++){
+                    writtingByte[0] = (byte)((int)output[i].charAt(j) + (randomChange));
+                    // writtingByte[0] = (byte)(output[0].charAt(j));
+                    dOutputStream.write(writtingByte);
+                }
+
+            }
+        }
+
+        fOutputStream.close();
         dOutputStream.close();
-
     }
 
     /**
@@ -228,14 +262,28 @@ public class Encryptor {
      */
     public String getUnencrypted(FileSelect fileSelected, double itemNumber) throws IOException{
 
-        File chosenFile;    //The actual file that will be read from.
-        Byte currentByte = 0;   //the currently read byte.
-        int encryptedDataSize;   //The size of the password that is to be read.
+
         String output = "";     //The string that will be returned at the end of this method if no errors occur.
+
+        for(int i = 0; i < ReadFromFile(fileSelected, itemNumber).length; i++){
+
+        output += Character.toString((char)(((int)ReadFromFile(fileSelected, itemNumber)[i]) - (randomChange)));
+
+        }
+
+        return output;
+
+    }
+
+    public byte[] ReadFromFile(FileSelect fileSelected, double itemNumber) throws IOException{
+
+        File chosenFile;    //The actual file that will be read from.
+        byte currentByte = 0;   //the currently read byte.
+        int encryptedDataSize = 0;   //The size of the password that is to be read.
 
         random = new Random(seed);
 
-        if(fileSelected == FileSelect.astronaught){
+        if(fileSelected == FileSelect.astronaut){
             chosenFile = astronaughtFile;
         }else if(fileSelected == FileSelect.password){
             chosenFile = passwordsFile;
@@ -247,90 +295,119 @@ public class Encryptor {
         DataInputStream dataInputStream = new DataInputStream(fileInputStream);
 
         try{
-        // dataInputStream.readByte();
-        currentByte = (byte)((int)dataInputStream.readByte() - random.nextInt(26));
+            encryptedDataSize = ((int)dataInputStream.readByte());// - (randomChange));
         }catch(EOFException EndedEarlyException){
-
             dataInputStream.close();
             throw new IOException();
         }
 
-        encryptedDataSize = currentByte.intValue();
+        byte[] output = new byte[encryptedDataSize];     //The string that will be returned at the end of this method if no errors occur.
 
-        if(itemNumber > 0){
+        if(itemNumber != 0){
             if(itemNumber % 1 == 0.5){
                 if(itemNumber == 0.5){
+                    output = new byte[1];
                     try{ 
-                        output += currentByte.intValue();
+                        output[0] = currentByte;
                     }catch(IllegalArgumentException DidNotReadCorrectly){
                         dataInputStream.close();
-                        return "Invalid seed";
+                        throw DidNotReadCorrectly;
                     }
                     dataInputStream.close();
                     return output;
                 }else{
-                    for(int i = 0; i < itemNumber; i++){
-                        output = "";
-                        for(int j = 0; j < encryptedDataSize; j++){
+                    for(int i = 0; i < itemNumber-.5; i++){
+                        for(int j = 0; j < encryptedDataSize + 1; j++){
                             currentByte = dataInputStream.readByte();
-                            currentByte = (byte)((int)currentByte - random.nextInt(26));
-                            try{
-                                output += Character.toString(currentByte);
-                            }catch(IllegalArgumentException DidNotReadCorrectly){
-                                dataInputStream.close();
-                            return "Invalid seed";
-                            }
                         }
-                        if(i < itemNumber - 1);
-                        random = new Random(seed);
-                        currentByte = dataInputStream.readByte();
-                        currentByte = (byte)((int)currentByte - random.nextInt(26));
-                        encryptedDataSize = currentByte.intValue();
+                        
                     }
-                    output = "";
-                    output += encryptedDataSize;
+
+                    output[0] = currentByte;
+
                     dataInputStream.close();
                     return output;
                 }
             }else{
-                // for(int i = 0; i < itemNumber; i++){
-                    
-                    for(int j = 0; j < encryptedDataSize; j++){
-                        currentByte = dataInputStream.readByte();
+                
+                // try{
+                    for(int i = 0; i < itemNumber; i++){
+                        for(int j = 0; j < encryptedDataSize + 1; j++){
+                            currentByte = dataInputStream.readByte();
+                        }
+
+                        encryptedDataSize = currentByte;
+                        
                     }
 
-                    currentByte = dataInputStream.readByte();
-                    encryptedDataSize = currentByte.intValue();
 
+                // }catch(EOFException nothingInLocation){
+                //     dataInputStream.close();
+                //     output = new Byte[1];
+                //     output[0] = 0;
+                //     return output;
                 // }
-                output = "";
-                for(int i = 0; i < encryptedDataSize; i++){
-                    currentByte = dataInputStream.readByte();
-                    currentByte = (byte)((int)currentByte - random.nextInt(26));
-                    try{
-                        output += Character.toString(currentByte);
-                    }catch(IllegalArgumentException DidNotReadCorrectly){
-                        dataInputStream.close();
-                        return "Invalid seed";
-                    }
-                }
+
+                // encryptedDataSize = ReadFromFile(fileSelected, itemNumber+0.5)[0];
+
+                output = new byte[encryptedDataSize];
+                
+                // for(int i = 0; i < encryptedDataSize; i++){
+                    // try{
+                    //     currentByte = dataInputStream.readByte();
+                    // }catch(EOFException endedEarly){
+                    //     //return the expected sized output
+                    //     dataInputStream.close();
+                    //     return output;
+                    // }
+
+                    dataInputStream.read(output, 0, encryptedDataSize);
+                // }
             }
         }else{
             for(int i = 0; i < encryptedDataSize; i++){
-                currentByte = dataInputStream.readByte();
-                currentByte = (byte)((int)currentByte - random.nextInt(26));
                 try{
-                    output += Character.toString(currentByte);
+                currentByte = dataInputStream.readByte();
+                }catch(Exception x){
+                    dataInputStream.close();
+                    throw new IOException(String.valueOf(encryptedDataSize));
+                }
+
+                currentByte = (byte)((int)currentByte);
+                try{
+                    output[i] = currentByte;
                 }catch(IllegalArgumentException DidNotReadCorrectly){
                     dataInputStream.close();
-                    return "Invalid seed";
+                    throw DidNotReadCorrectly;
                 }
             }
         }
 
         dataInputStream.close();
         return output;
+    }
 
+    public int HowManyItemsInFile(FileSelect selectedFile){
+        
+        boolean counterOn = true;
+        int passwordAmount = 0;
+
+        //Find out how many passwords there are by reading passwords until there is no password found.
+        try{
+            try{
+            while(counterOn){
+                this.ReadFromFile(FileSelect.password, passwordAmount+1);
+                passwordAmount += 1;
+            }
+            }catch(EOFException amountReached){
+                counterOn = false;
+            } 
+        }catch(IOException amountReached){
+            //This will occur when the end of the file is reached.
+            counterOn = false;
+        }
+
+        return passwordAmount;
     }
 
     /**

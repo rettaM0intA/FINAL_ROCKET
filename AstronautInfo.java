@@ -1,17 +1,25 @@
+import java.io.IOException;
+
+import Enums.FileSelect;
+
 public class AstronautInfo{
 
     //Create variables here
     public String fileName = "AtronautInformation.dat";
 
-    /**
-     * Put information for the rocket inside.
-     * @param input First input
-     */
-    public AstronautInfo(){
-        
-    }
+    public void CreateAstronaut(String[] inputs, Encryptor encryptor, int astronautNumber){
 
-    public void CreateAstronaut(String[] inputs){
-        
+        if(astronautNumber < 0){
+            astronautNumber = encryptor.HowManyItemsInFile(FileSelect.astronaut);
+        }
+
+        for(int i = 0; i < 10; i++){
+            try {
+                encryptor.toEncrypt(inputs[i], FileSelect.astronaut, i + 8 * astronautNumber);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
     }
 }

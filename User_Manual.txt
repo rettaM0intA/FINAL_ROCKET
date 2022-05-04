@@ -1,0 +1,149 @@
+=============================================================================================================================
+-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+=============================================================================================================================
+                                          
+      _-------_     _------------         __          ____________     __________      ____________         
+     /   ____   \  |     _____    \      /  \        /            \   |__________|    |_____       / 
+     |    \  \---  |    |    /    /      \   \      |     ---------    __________           /    /
+       \    \       |   -----    /   _____\   \     |    |            |    ______|        /    /
+   ----  \    \     |   |-------/   /_____     \    |    |            |    |            /    /
+   \   \_-\    \    |   |                  \    \   |     ---------   |    ------     /    /__________
+    \-______ - /   |____|                   \____\   \____________/   |__________|    |_____________  ---------_______
+                                                                                                   -----------________\ 
+                          _____      _____      _-------_       __________     _------------
+                   	     |_    |    |     |    /   ____   \    |    ______|   |     _____    \
+		                  |    |     |   |     |    \  \---    |    |_____    |    |    /    /  
+    	                  |    |     |   |       \    \        |    ______|    |   -----    / 
+		                  |    |     |   |   ----  \    \      |    |          |   |  \    \
+	                       \    \__ /    |   \   \_-\    \     |    ------     |   |   \    \
+  	                        \________/\__|    \-______ - /     |__________|   |____|    \_____\
+
+       ___         ___              _------_       -----  _____         _____     _____       _------_       -----
+     _-   -_-----_-   -_           /   __   \      |   /  ___     \    |_    |   |     |     /   __   \      |    |    
+    /    __       __    \         /   /  \   \     |     /    \     |   |    |    |   |     /   /  \   \     |    |   
+   /    /  |     |  \    \       /   /____\   \    |    |      |    |   |    |    |   |    /   /____\   \    |    |   
+  /    /   |     |   \    \     /   ________   \   |    |      |    |   |    |    |   |   /    ______    \   |    |
+ /    /    |     |    \    \   /   /        \   \  |    |      |    |    \    \__ /   |  /    /      \    \  |     ---------
+/____/     \_____/     \____\ /___/          \___\ |____|      |____|     \_______/\__| /____/        \____\ |______________|
+
+===============================================================================================================================
+-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+===============================================================================================================================
+･゜ﾟ･:.｡..｡.:･'･:.｡. .｡.:･゜ﾟ･･゜ﾟ･:.｡..｡.:･'･:.｡. .｡.:･゜ﾟ･･゜ﾟ･:.｡..｡.:･'･:.｡. .｡.:･゜ﾟ･･゜ﾟ･:.｡..｡.:･'･:.｡. .｡.:･゜ﾟ･･゜ﾟ･:.｡..｡.:･'･:.｡. .｡.:･゜ﾟ･･゜ﾟ'･:
+
+
+Introduction-
+1-
+  1.1. User manuals purpose
+(SpaceZ is not responsible for death)
+	Congratulations, and welcome to the SpaceZ space program we are excited to have you.  
+	The Following manual covers:
+General Information 	
+Safety  precautions 
+
+Contact Info- 
+ EMAIL-
+	spacezprogram@gmail.com
+WEBSITE-
+	https://spacezprogram.wixsite.com/website
+
+  1.2.  Space Z goal 
+The objective of the Space Z program is being the best space program of the new generation.  
+We plan on reaching heights never before thought possible, with less energy, more efficient materials, and lower costs.                       
+                 						                    		             	                                                          |
+  1.3. Hawk Heavier Outline                                                                                                                  /|\                 
+The Hawk Heavier is our newest and best rocket model.                                                                                       / | \
+ We have found a way to only use one sizable thruster rather than use three,                                                               /  |  \
+this allows the rocket to be more powerful with the ability to lift 4X the payload.                                                       /___|___\
+ The engine allows the rocket to generate more that 5.1 million pounds of thrust, a little more than the  F-22 Raptor.                   (_________)                         
+												                                                    							      	 L_________⅃
+      Overview-                                                                                                                         |       _   |
+																			     													   |       | |   |
+                Height---------------------------------71mm / 230 ft    	                                                           |       |-|   |
+                Width----------------------------------13.3m / 40 ft ft            	                                                  |________|_|____|
+                Mass------------------------------------1,420,069 kg  / 4,203,092lb      	                                          |               |
+									 										    													  |   -       -   |
+      First Stage-                                                                                                                    |_______________|
+						   												      														 /                 \
+    The main core is the center of the rocket.                                                                                     /                     \
+    After launch, and reaching the atmosphere, the Cores are released and let down.                                              /                         \
+    Afterwards the rocket main thruster goes at full force to boost the rocket into full orbit.                                /                             \
+																	  														 /                                 \
+	  Interstage-                                                                         									 |_________________________________|
+														    																 |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|
+	The Hawk Heavier is built with the up most outstanding technology.													     |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_| 
+	The Hawk Heavier was made by this generation's most intelligent scientists and engineers.								 |           |         |           |
+																	   														 |           |         |           | 
+	  Second stage-                                                                                                          |           |         |           |	
+																	  														 |           |    _    |           |
+	After releasing the first thruster the Hawk Heavier is equipped with two others,                                         |           !   /_\   !           |
+	which gives more control to the rocket when in orbit.                                                                    |            //_____\\            |
+				Number of Engines------------------- 1                                                                       |           |  _____  |           |    
+				Burn TIme--------------------------- 420 sec                                                                 |          |  /__|__\  |          |
+				Thrust------------------------------ 1000 kN                                                                 |          |           |          |
+																	  														 |          |           |          |
+				Payload-                                                                                                     |          |           |          |
+				Height---------------------------------15.1m / 45 ft                                                         |         /|           |\         |
+				Width----------------------------------6.5m / 17.2 ft                                                        |        / |           | \        |
+																	  														 |       /  |           |  \       |
+																	  														 |      /   |           |   \      |
+General Information                                                                                                          |     /    |     |     |    \     |
+2-                                                     																	     |   _/     |     |     |     \_   |
+  2.1                                                                                                                        |_/        |     |     |        \_|
+	The user manual is a basic guide and how to safely operate Falcon light (Rocket).										_/          |     |     |          \_
+	It is tremendously important that you read the warnings and cautions carefully.	                                      _/            |     |     |            \_
+	Particularly information concerning safety, operation and cleaning.                                                  / _ _ _ _ _ _ _|     |     |_ _ _ _ _ _ _ \
+																 													     \______________|     |     |______________/
+Safety information 																										     |          \ __ / \ __ /          |
+3- 													 																	     |          /____\ /____\          |
+	3.1																	                                                     |        |  !         !  |        |
+	The Ground Safety Officer (GSO) Analyzes and establishes safety plans before and during rocket takeoff					 |        |_______________|        |
+	 Approves work instructions, equipment and personnel for potentially hazardous operations.								 |        | \           / |        |
+	If necessary, specifically designate the person responsible for carrying out the operation. 							 |        |  | | | | | |  |        |
+	Follows up that the decided safety measures are complied with.															 \        / /___________\ \        /
+																														      | |  | |                 | |  | | 
+	3.2																  														 /________\               /________\
+	The Superintendent for Explosives is responsible for all handling of explosives and other
+	 off-range locations where Space Z has range safety responsibility.
+
+	3.3
+	The Space Z Project Manager is responsible for all communication with customers and
+	 contractors when planning and building up and conducting the rocket.
+
+Program menu instructions
+4-
+	4.1
+	Logging into the program-
+		his program is made to store our information and launch Hawk Heavier into space. 
+	When logging in please enter the admin password given to you.  If you have yet to create an account please
+	tell a supervisor.  This program hold all our astronaut information and rocket information,  if *ANY* information
+	is shared to someone outside our program you will be terminated from the program and legal action will be taken.
+    Once logged into the program you will be able to choose what you want to access.  
+
+	4.2
+	Astronaut information- 
+	The program and file will gather the following information about the astronauts.
+	  If any information needs to be edited you can enter a password if you are ranking high enough to change the information.
+		1.	Name																																	
+		2.	Email address																													
+		3.	Home address
+		4.	Phone Number
+		5.	Date of Birth
+		6.	Next of Kin
+		7.	ranking
+		8.	Weight
+		9.	Pay 
+		10.	Social Security Number
+
+	4.3
+		Rocket Information-
+		This program will launch a rocket into orbit so for that to occur we need to be able
+		 to gather the required information, which is stored in this file.  
+
+･゜ﾟ･:.｡..｡.:･'･:.｡. .｡.:･゜ﾟ･･゜ﾟ･:.｡..｡.:･'･:.｡. .｡.:･゜ﾟ･･゜ﾟ･:.｡..｡.:･'･:.｡. .｡.:･゜ﾟ･･゜ﾟ･:.｡..｡.:･'･:.｡. .｡.:･゜ﾟ･･゜ﾟ･:.｡..｡.:･'･:.｡. .｡.:･゜ﾟ･･゜ﾟ'
+=============================================================================================================================
+-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+=============================================================================================================================
+
+
+
