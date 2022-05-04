@@ -96,7 +96,7 @@ public class UserInput {
 
         do {
                 
-            System.out.print("\nEnter the code given by the Admin.\n");
+            System.out.print("\nEnter the key given by the Admin.\n");
             inputs[0] = keyboard.nextLine();
 
             try{
@@ -149,10 +149,11 @@ public class UserInput {
         "\nPhone number: " + inputs[3] + "\nDate of birth: " + inputs[4] + "\nNext of kin: " + inputs[5] + 
         "\nRank: " + inputs[6] + "\nWeight " + inputs[7] + "\nPay rate: " + inputs[8] + "\nSocial security number: " + inputs[9]);
 
+        //Verify
         System.out.println("Is this information correct? \nY/N");
         confirmation = keyboard.nextLine();
 
-            if(confirmation.length() == 1 && (Character.toLowerCase(confirmation.charAt(0)) == 'y' || Character.toLowerCase(confirmation.charAt(0)) == 'n')){
+            if(YesOrNoChecker(confirmation) == 1){
                 tryData = false;
             }
         }
