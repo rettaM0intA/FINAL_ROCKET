@@ -36,6 +36,7 @@ public class Main {
 
             if(Integer.parseInt(inputs[0]) == 1){
                 //Call Astronaut management menu
+                ui.NewAstronaut();
 
             }else if(Integer.parseInt(inputs[0]) == 2){
                 //Call Rocket management menu
