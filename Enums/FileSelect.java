@@ -1,6 +1,6 @@
 package Enums;
 public enum FileSelect {
-    astronaught,
+    astronaut,
     rocket,
     password
 }

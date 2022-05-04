@@ -98,7 +98,7 @@ public class Main {
             userInput = keyboard.nextLine();
 
             try {
-                encryptor.toEncrypt(userInput, FileSelect.astronaught, i);
+                encryptor.toEncrypt(userInput, FileSelect.astronaut, i);
             } catch (IOException e) {
                 e.printStackTrace();
                 System.out.print("\nINVALID Position\n");
@@ -109,11 +109,11 @@ public class Main {
 
         try {
             System.out.print(encryptor.getUnencrypted(FileSelect.password, 0) + "\n");
-            System.out.print(encryptor.getUnencrypted(FileSelect.astronaught, 0) + "\n");
-            System.out.print(encryptor.getUnencrypted(FileSelect.astronaught, 1) + "\n");
-            System.out.print(encryptor.getUnencrypted(FileSelect.astronaught, 2) + "\n");
-            System.out.print(encryptor.getUnencrypted(FileSelect.astronaught, 5) + "\n");
-            System.out.print(encryptor.getUnencrypted(FileSelect.astronaught, 2) + "\n");
+            System.out.print(encryptor.getUnencrypted(FileSelect.astronaut, 0) + "\n");
+            System.out.print(encryptor.getUnencrypted(FileSelect.astronaut, 1) + "\n");
+            System.out.print(encryptor.getUnencrypted(FileSelect.astronaut, 2) + "\n");
+            System.out.print(encryptor.getUnencrypted(FileSelect.astronaut, 5) + "\n");
+            System.out.print(encryptor.getUnencrypted(FileSelect.astronaut, 2) + "\n");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

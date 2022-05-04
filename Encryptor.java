@@ -143,7 +143,7 @@ public class Encryptor {
         byte[] writtingByte = new byte[1];
         int existingEntryAmount = 0;
 
-        if(fileSelected == FileSelect.astronaught){
+        if(fileSelected == FileSelect.astronaut){
             chosenFile = astronaughtFile;
         }else if(fileSelected == FileSelect.password){
             chosenFile = passwordsFile;
@@ -283,7 +283,7 @@ public class Encryptor {
 
         random = new Random(seed);
 
-        if(fileSelected == FileSelect.astronaught){
+        if(fileSelected == FileSelect.astronaut){
             chosenFile = astronaughtFile;
         }else if(fileSelected == FileSelect.password){
             chosenFile = passwordsFile;
@@ -385,6 +385,29 @@ public class Encryptor {
 
         dataInputStream.close();
         return output;
+    }
+
+    public int HowManyItemsInFile(FileSelect selectedFile){
+        
+        boolean counterOn = true;
+        int passwordAmount = 0;
+
+        //Find out how many passwords there are by reading passwords until there is no password found.
+        try{
+            try{
+            while(counterOn){
+                this.ReadFromFile(FileSelect.password, passwordAmount+1);
+                passwordAmount += 1;
+            }
+            }catch(EOFException amountReached){
+                counterOn = false;
+            } 
+        }catch(IOException amountReached){
+            //This will occur when the end of the file is reached.
+            counterOn = false;
+        }
+
+        return passwordAmount;
     }
 
     /**

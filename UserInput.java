@@ -42,12 +42,13 @@ public class UserInput {
         if(passwordCreator.CreateAdminPassword(encryptor)){
             try {
                 System.out.print("\nHello and welcome new admin. The following are the key and your password. Keep them safe.\n"+
-                "Admin password: " + encryptor.getUnencrypted(FileSelect.password, 0) +
+                "Deletion password: " + encryptor.getUnencrypted(FileSelect.password, 1) +
                 "\nKey: " + encryptor.getCurrentSeed());
             } catch (IOException encryptorBroke) {
                 encryptorBroke.printStackTrace();
             }
         }
+
     }
 
     /**
@@ -139,18 +140,7 @@ public class UserInput {
                 inputs[0] = keyboard.nextLine();
 
                 if(YesOrNoChecker(inputs[0]) == 1){
-                    try{
-                        try{
-                            while(true){
-                                encryptor.ReadFromFile(FileSelect.password, passwordAmount);
-                                passwordAmount += 1;
-                            }
-                        }catch(EOFException amountReached){
-                            //This will occur when the end of the file is reached.
-                        } 
-                    }catch(IOException amountReached){
-                        //This may occur when the end of the file is reached.
-                    }
+                    passwordAmount = encryptor.HowManyItemsInFile(FileSelect.password);
                     try {
                         encryptor.toEncrypt(passwordCreator.GeneratePassword(), FileSelect.password, passwordAmount);
                         System.out.print("New password generated. Password for employee #" + passwordAmount+
@@ -203,11 +193,12 @@ public class UserInput {
 
     }
     
+    /**
+     * Has the user create a new astronaut and add them to the list.
+     */
     public void NewAstronaut() {
        
         inputs[10] = "";
-
-        
 
         while(YesOrNoChecker(inputs[10]) != 2){
         System.out.println("What is the astronauts name?");
@@ -241,19 +232,73 @@ public class UserInput {
                 while(YesOrNoChecker(inputs[11]) == 3){
                     //Verify
                     System.out.println("Is this information correct? \nY/N");
-                    confirmation = keyboard.nextLine();
+                    inputs[11] = keyboard.nextLine();
 
                 }
+                if(YesOrNoChecker(inputs[11]) == 1){
+                    astroInfo.CreateAstronaut(inputs, encryptor, -1);
+                }
             }
+            System.out.print("Do you want to make another astronaut?\nYes or No\n");
+            inputs[10] = keyboard.nextLine();
         
         }
 
-       
-       keyboard.close();
     }
 
+    public void ViewData(){
+        int astronautCount = encryptor.HowManyItemsInFile(FileSelect.astronaut) / 10;
+        int rocketCount = encryptor.HowManyItemsInFile(FileSelect.astronaut) / 10;
+    }
+
+    /**
+     * UNFINISHED
+     */
     public void NewRocket(){
 
+        while(YesOrNoChecker(inputs[10]) != 2){
+            System.out.println("What is the astronauts name?");
+            inputs[0] = keyboard.nextLine();
+            keyboard.nextLine();
+            System.out.println("What is the astronauts Email?");
+            inputs[1] = keyboard.nextLine();
+            System.out.println("What is the astronauts address?");
+            inputs[2] = keyboard.nextLine();
+            System.out.println("What is the astronauts phone number?");
+            inputs[3] = keyboard.nextLine();
+            System.out.println("What is the astronauts date of birth?");
+            inputs[4] = keyboard.nextLine();
+            System.out.println("What is the astronauts next of kin?");
+            inputs[5] = keyboard.nextLine();
+            System.out.println("What is the astronauts rank?");
+            inputs[6] = keyboard.nextLine();
+            System.out.println("What does the astronaut weigh?");
+            inputs[7] = Double.toString(keyboard.nextDouble());
+            System.out.println("What is the astronauts pay?");
+            inputs[8] = Double.toString(keyboard.nextDouble());
+            System.out.println("What is the astronauts social security number?");
+            inputs[9] = keyboard.nextLine();
+    
+                while(YesOrNoChecker(inputs[10]) != 1){
+                //Display input information for verification.
+                System.out.println("The astronauts info: \nName: " + inputs[0] + "\nEmail: " + inputs[1] + "\nAddress: " + inputs[2] +
+                    "\nPhone number: " + inputs[3] + "\nDate of birth: " + inputs[4] + "\nNext of kin: " + inputs[5] + 
+                    "\nRank: " + inputs[6] + "\nWeight " + inputs[7] + "\nPay rate: " + inputs[8] + "\nSocial security number: " + inputs[9]);
+    
+                    while(YesOrNoChecker(inputs[11]) == 3){
+                        //Verify
+                        System.out.println("Is this information correct? \nY/N");
+                        inputs[11] = keyboard.nextLine();
+    
+                    }
+                    if(YesOrNoChecker(inputs[11]) == 1){
+                        astroInfo.CreateAstronaut(inputs, encryptor, -1);
+                    }
+                }
+                System.out.print("Do you want to make another astronaut?\nYes or No\n");
+                inputs[10] = keyboard.nextLine();
+            
+            }
     }
 
     /**
@@ -302,23 +347,10 @@ public class UserInput {
 
         if(YesOrNoChecker(inputs[0]) == 1){
 
-            boolean counterOn = true;
             int passwordAmount = 0;
 
             //Find out how many passwords there are by reading passwords until there is no password found.
-            try{
-                try{
-                while(counterOn){
-                    encryptor.ReadFromFile(FileSelect.password, passwordAmount+1);
-                    passwordAmount += 1;
-                }
-                }catch(EOFException amountReached){
-                    counterOn = false;
-                } 
-            }catch(IOException amountReached){
-                //This will occur when the end of the file is reached.
-                counterOn = false;
-            }
+            passwordAmount = encryptor.HowManyItemsInFile(FileSelect.astronaut);
 
             try{
 
