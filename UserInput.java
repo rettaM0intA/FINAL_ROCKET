@@ -1,6 +1,8 @@
 import java.io.EOFException;
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.concurrent.Flow.Subscriber;
 
 import Enums.FileSelect;
 
@@ -16,8 +18,6 @@ public class UserInput {
     private String[] inputs = new String[21];
     
     private static Double astronauts; //How many astronauts are going to be on the ship
-
-    private static String confirmation = "";
 
     /**
      * Creates a user input with default variables.
@@ -150,7 +150,7 @@ public class UserInput {
                 inputs[0] = keyboard.nextLine();
 
                 if(YesOrNoChecker(inputs[0]) == 1){
-                    passwordAmount = encryptor.HowManyItemsInFile(FileSelect.password);
+                    passwordAmount = encryptor.HowManyItemsInFile(FileSelect.password) + 1;
                     try {
                         encryptor.toEncrypt(passwordCreator.GeneratePassword(), FileSelect.password, passwordAmount);
                         System.out.print("New password generated. Password for employee #" + passwordAmount+
@@ -209,8 +209,9 @@ public class UserInput {
     public void EditAstronauts() {
 
         inputs[15] = " ";
+        boolean confirmation = false;
 
-        while(YesOrNoChecker(inputs[15]) == 3){
+        while(YesOrNoChecker(inputs[15]) != 1){
 
             System.out.print("Do you want to add an Astronaut?\nY/N\n");
             inputs[10] = keyboard.nextLine();
@@ -222,7 +223,6 @@ public class UserInput {
                 while(YesOrNoChecker(inputs[10]) != 2){
                     System.out.println("What is the astronauts name?");
                     inputs[0] = keyboard.nextLine();
-                    keyboard.nextLine();
                     System.out.println("What is the astronauts Email?");
                     inputs[1] = keyboard.nextLine();
                     System.out.println("What is the astronauts address?");
@@ -235,18 +235,38 @@ public class UserInput {
                     inputs[5] = keyboard.nextLine();
                     System.out.println("What is the astronauts rank?");
                     inputs[6] = keyboard.nextLine();
-                    System.out.println("What does the astronaut weigh?");
-                    inputs[7] = Double.toString(keyboard.nextDouble());
-                    System.out.println("What is the astronauts pay?");
-                    inputs[8] = Double.toString(keyboard.nextDouble());
+                    confirmation = false;
+                    while(!confirmation){
+                        try{
+                            System.out.println("What does the astronaut weigh in pounds?");
+                            inputs[7] = keyboard.nextLine();
+                            inputs[7] = Double.toString(Double.parseDouble(inputs[7]));
+                            confirmation = true;
+                        }catch(InputMismatchException invalidInput){
+                            System.out.print("Invalid input. Use only numbers.\n");
+                        }
+                    }
+                    confirmation = false;
+                    while(!confirmation){
+                        try{
+                            System.out.println("What is the astronauts pay in cents?");
+                            inputs[8] = keyboard.nextLine();
+                            inputs[8] = Double.toString(Double.parseDouble(inputs[8]));
+                            confirmation = true;
+                        }catch(InputMismatchException invalidInput){
+                            System.out.print("Invalid input. Use only numbers.\n");
+                        }
+                    }
                     System.out.println("What is the astronauts social security number?");
                     inputs[9] = keyboard.nextLine();
 
-                        while(YesOrNoChecker(inputs[10]) != 1){
+                        while(YesOrNoChecker(inputs[11]) != 1){
                         //Display input information for verification.
-                        System.out.println("The astronauts info: \nName: " + inputs[0] + "\nEmail: " + inputs[1] + "\nAddress: " + inputs[2] +
+                            System.out.println("The astronauts info: \nName: " + inputs[0] + "\nEmail: " + inputs[1] + "\nAddress: " + inputs[2] +
                             "\nPhone number: " + inputs[3] + "\nDate of birth: " + inputs[4] + "\nNext of kin: " + inputs[5] + 
-                            "\nRank: " + inputs[6] + "\nWeight " + inputs[7] + "\nPay rate: " + inputs[8] + "\nSocial security number: " + inputs[9]);
+                            "\nRank: " + inputs[6] + "\nWeight " + inputs[7] + " pounds\nPay rate: " + inputs[8] + " cents\nSocial security number: " + inputs[9]);
+
+                            inputs[11] = " ";
 
                             while(YesOrNoChecker(inputs[11]) == 3){
                                 //Verify
@@ -266,16 +286,50 @@ public class UserInput {
                 
                 }
             }else{
-                System.out.print("Do you want to add an Astronaut?\nY/N\n");
+
+                System.out.print("Do you want to remove an Astronaut?\nY/N\n");
                 inputs[10] = keyboard.nextLine();
+
+                if(YesOrNoChecker(inputs[10]) == 1 ){
+                    while(Double.valueOf(inputs[10]) < encryptor.HowManyItemsInFile(FileSelect.astronaut)){
+                        ViewData(FileSelect.astronaut);
+                        System.out.print("Enter the number of the astronaut you want to delete\n");
+                        inputs[10] = keyboard.nextLine();
+                    }
+
+                }else{
+                    System.out.println("Are you done editing astronauts?\n");
+                    inputs[15] = keyboard.nextLine();
+                }
+
             }
         }
 
     }
 
-    public void ViewData(){
-        int astronautCount = encryptor.HowManyItemsInFile(FileSelect.astronaut) / 10;
-        int rocketCount = encryptor.HowManyItemsInFile(FileSelect.astronaut) / 10;
+    public void ViewData(FileSelect selected){
+
+        String[] inputs = new String[11];
+
+        if(selected == FileSelect.astronaut){
+
+            int astronautCount = encryptor.HowManyItemsInFile(FileSelect.astronaut) / 10;
+            
+            for(int i = 0; i < astronautCount; i++){
+                for(int j = 0; j < 10; j++){
+                    try {
+                        inputs[j] = encryptor.getUnencrypted(FileSelect.astronaut, j);
+                    } catch (IOException InvalidFilePath) {
+                    }
+                }
+                System.out.println("\nAstronaut #" + i +"'s' info- \nName: " + inputs[0] + "\nEmail: " + inputs[1] + "\nAddress: " + inputs[2] +
+                            "\nPhone number: " + inputs[3] + "\nDate of birth: " + inputs[4] + "\nNext of kin: " + inputs[5] + 
+                            "\nRank: " + inputs[6] + "\nWeight " + inputs[7] + "\nPay rate: " + inputs[8] + "\nSocial security number: " + inputs[9]);
+            }
+
+        }
+
+        int rocketCount = encryptor.HowManyItemsInFile(FileSelect.astronaut) / 3;
     }
 
     /**
@@ -384,7 +438,7 @@ public class UserInput {
 
             try{
 
-            for(int i = 1; i < passwordAmount; i++){
+            for(int i = 0; i < passwordAmount + 1; i++){
                 inputs[2] = encryptor.getUnencrypted(FileSelect.password, i);
                 if(TheseStringsAreEqual(inputs[1], inputs[2])){
                     return true;

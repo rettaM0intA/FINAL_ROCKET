@@ -10,15 +10,23 @@ public class AstronautInfo{
     public void CreateAstronaut(String[] inputs, Encryptor encryptor, int astronautNumber){
 
         if(astronautNumber < 0){
-            astronautNumber = encryptor.HowManyItemsInFile(FileSelect.astronaut);
-        }
+            for(int i = 0; i < 10; i++){
+                try {
+                    encryptor.toEncrypt(inputs[i], FileSelect.astronaut, i + encryptor.HowManyItemsInFile(FileSelect.astronaut));
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }else{
 
-        for(int i = 0; i < 10; i++){
-            try {
-                encryptor.toEncrypt(inputs[i], FileSelect.astronaut, i + 8 * astronautNumber);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            for(int i = 0; i < 10; i++){
+                try {
+                    encryptor.toEncrypt(inputs[i], FileSelect.astronaut, i + 8 * astronautNumber);
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             }
         }
     }
