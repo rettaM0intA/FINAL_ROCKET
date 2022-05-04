@@ -13,9 +13,10 @@ public class Main {
         boolean active = true;
         UserInput ui = new UserInput();
 
-        while(active){
-            //Call manual here
+        //Checks if there is an admin password. If there isn't, then it declares the user as admin and makes one.
+        ui.FirstRun();
 
+        while(active){
 
             //Has the user enter the seed. Does NOT check if seed is wrong.
             ui.EnterSeed();
@@ -31,10 +32,7 @@ public class Main {
             //Calls the main menu.
             inputs[0] = String.valueOf(ui.MainMenu());
 
-            if(Integer.parseInt(inputs[0]) == 0){
-                //Call user editing method that asks for ADMIN password
-
-            }else if(Integer.parseInt(inputs[0]) == 1){
+            if(Integer.parseInt(inputs[0]) == 1){
                 //Call Astronaut management menu
 
             }else if(Integer.parseInt(inputs[0]) == 2){
@@ -72,8 +70,8 @@ public class Main {
 
         try {
             encryptor = new Encryptor(astroFileName, rocketFileName, passwordsFileName, 12763827);
-        } catch (Exception FileAlreadyExistsException) {
-            System.out.print(FileAlreadyExistsException.getMessage());
+        } catch (Exception InvalidPath) {
+            System.out.print(InvalidPath.getMessage());
         }
 
         PasswordCreator passwordCreator = new PasswordCreator();

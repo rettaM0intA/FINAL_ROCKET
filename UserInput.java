@@ -40,6 +40,18 @@ public class UserInput {
         }
     }
 
+    public void FirstRun(){
+        if(passwordCreator.CreateAdminPassword(encryptor)){
+            try {
+                System.out.print("\nHello and welcome new admin. The following are the key and your password. Keep them safe.\n"+
+                "Admin password: " + encryptor.getUnencrypted(FileSelect.password, 0) +
+                "\nKey: " + encryptor.getCurrentSeed());
+            } catch (IOException encryptorBroke) {
+                encryptorBroke.printStackTrace();
+            }
+        }
+    }
+
     /**
      * Call to use the main menu.
      * @return a number 0-4 which means the chosen option.
@@ -183,7 +195,10 @@ public class UserInput {
         return false;
     }
 
-    
+    /**
+     * First asks if the user is an employee. Then, has the user type in their password and sees if that password is correct.
+     * @return true if they are an employee. FALSE if not
+     */
     public boolean EmployeeLogin() {
         do{
             System.out.print("Are you an employee?\nEnter Yes/No\n");
@@ -210,13 +225,22 @@ public class UserInput {
                 //This will occur when the end of the file is reached.
             }
 
-            for(int i = 0; i < passwordAmount; i++)
-            // if(){
-            //     return true;
-            // }
+            try{
+
+            for(int i = 1; i < passwordAmount; i++){
+                inputs[1] = encryptor.getUnencrypted(FileSelect.password, i);
+                if(TheseStringsAreEqual(inputs[0], inputs[1])){
+                    return true;
+                }
+            }
 
             System.out.print("Invalid login code.");
             return false;
+            
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             
         }
         
@@ -239,5 +263,22 @@ public class UserInput {
         return 2;
         else
         return 3;
+    }
+
+    /**
+     * Use to compare the length and characters of two strings.
+     * @param input1 One of the strings to be compared
+     * @param input2 The other string to be compared
+     * @return true if they pass both tests. false if they are not the same.
+     */
+    public boolean TheseStringsAreEqual(String input1, String input2){
+        if(input1.length() != input2.length()){
+            return false;
+        }
+        for(int i = 0; i < input1.length(); i++){
+            if(input1.charAt(i) != input2.charAt(i))
+            return false;
+        }
+        return true;
     }
 }
