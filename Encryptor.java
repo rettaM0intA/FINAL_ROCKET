@@ -139,9 +139,9 @@ public class Encryptor {
 
         File chosenFile;
 
-        String[] output = new String[itemNumber];
         int itemSize = 0;
         byte[] writtingByte = new byte[1];
+        int existingEntryAmount = 0;
 
         if(fileSelected == FileSelect.astronaught){
             chosenFile = astronaughtFile;
@@ -151,8 +151,26 @@ public class Encryptor {
             chosenFile = rocketFile;
         }
 
-        if(itemNumber > 0){
-            for(int i = 0; i < itemNumber; i++){
+        try{
+            try{
+            while(true){
+                this.ReadFromFile(fileSelected, existingEntryAmount);
+                existingEntryAmount += 1;
+            }
+            }catch(EOFException amountReached){
+                // System.out.print("\n" + existingEntryAmount + "\n"); //uncomment to see how many exist when code is ran.
+                throw new IOException();
+                
+            } 
+        }catch(IOException amountReached){
+            //This will occur when the end of the file is reached.
+            // System.out.print("\n" + existingEntryAmount + "\n"); //uncomment to see how many exist when code is ran.
+        }
+
+        String[] output = new String[existingEntryAmount];
+
+        if(existingEntryAmount > 0){
+            for(int i = 0; i < existingEntryAmount; i++){
                 output[i] = "";
                 // itemSize = Integer.parseUnsignedInt(getUnencrypted(fileSelected, i+.5));
                 
@@ -163,7 +181,7 @@ public class Encryptor {
         FileOutputStream fOutputStream = new FileOutputStream(chosenFile);
         DataOutputStream dOutputStream = new DataOutputStream(fOutputStream);
 
-        if(output.length > 0){
+        if(output.length > 0 && itemNumber > 0){
             for(int i = 0; i < itemNumber; i++){
                 
                 // output[i] = output[i].substring(4, output[i].length());
@@ -186,22 +204,50 @@ public class Encryptor {
 
             }
         }
-        
-        
-        //Write the length of the Input
-        writtingByte[0] = (byte)(input.length());
-        dOutputStream.write(writtingByte);
 
-        //Write all pieces of the Input
-        for(int i = 0; i < input.length(); i++){
-            writtingByte[0] = (byte)((int)input.charAt(i) + (randomChange));
-            // writtingByte[0] = (byte)(input.charAt(i));
+        if(input.length() > 0){
+        
+            //Write the length of the Input
+            writtingByte[0] = (byte)(input.length());
             dOutputStream.write(writtingByte);
+
+            //Write all pieces of the Input
+            for(int i = 0; i < input.length(); i++){
+                writtingByte[0] = (byte)((int)input.charAt(i) + (randomChange));
+                // writtingByte[0] = (byte)(input.charAt(i));
+                dOutputStream.write(writtingByte);
+            }
+
+        }
+
+            
+        if(itemNumber < existingEntryAmount-1){
+            
+            for(int i = itemNumber; i < existingEntryAmount; i++){
+                
+                // output[i] = output[i].substring(4, output[i].length());
+
+                // //write the length of the first previous entry.
+                // writtingByte[0] = (byte)((int)output[i].length() + random.nextInt(randomChange));
+                // dOutputStream.write(writtingByte);
+
+                // output[0] = "4Alex";
+
+                writtingByte[0] = (byte)(output[i].length());
+                dOutputStream.write(writtingByte);
+
+                //Write all pieces of the previous entries
+                for(int j = 0; j < output[i].length(); j++){
+                    writtingByte[0] = (byte)((int)output[i].charAt(j) + (randomChange));
+                    // writtingByte[0] = (byte)(output[0].charAt(j));
+                    dOutputStream.write(writtingByte);
+                }
+
+            }
         }
 
         fOutputStream.close();
         dOutputStream.close();
-
     }
 
     /**

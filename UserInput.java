@@ -15,19 +15,13 @@ public class UserInput {
 
     private String[] inputs = new String[11];
     
-    private static String name = "";
-    private static String address = "";
-    private static String email = "";
-    private static String phone = ""; 
-    private static String birth = "";
-    private static String snumber = ""; //Serial Number
-    private static String kin = ""; //Next of kin
-    private static String rank = "";
-    private static Double weight;
-    private static Double pay;
     private static Double astronauts; //How many astronauts are going to be on the ship
+
     private static String confirmation = "";
 
+    /**
+     * Creates a user input with default variables.
+     */
     public UserInput(){
         astroInfo = new AstronautInfo();
         rocketInfo = new RocketInfo();
@@ -40,6 +34,10 @@ public class UserInput {
         }
     }
 
+    /**
+     * This code should be run immediatly every time the code is initiated.  
+     * It checks to see if an admin password exists. It will make a new one and tell the user it if none is there.
+     */
     public void FirstRun(){
         if(passwordCreator.CreateAdminPassword(encryptor)){
             try {
@@ -55,7 +53,6 @@ public class UserInput {
     /**
      * Call to use the main menu.
      * @return a number 0-4 which means the chosen option.
-     * 0: wants to edit users
      * 1: wants to edit astronauts
      * 2: wants to edit rockets
      * 3: wants to configure launch settings
@@ -67,7 +64,6 @@ public class UserInput {
         inputs[0] = "-1";
         do {
             System.out.print("\nMain menu. Please enter one of the following options.\n" + 
-            "0: Edit Users\n" + 
             "1: Edit Astronauts\n" + 
             "2: Edit Rockets\n" +
             "3: Configure Simulation\n" + 
@@ -111,6 +107,101 @@ public class UserInput {
 
         } while (seed <= 0);
     }
+
+    /**
+     * Used by the admin to edit and generate other employee passwords.
+     */
+    public void EditEmployees(){
+
+        boolean active = true;
+        int passwordAmount = 1;
+        inputs[0] = "";
+        
+        while(YesOrNoChecker(inputs[0]) == 3){
+        System.out.print("\nWould you like to edit the list of employee passwords?\n"+
+        "Enter Yes or No\n");
+        inputs[0] = keyboard.nextLine();
+        
+        }
+        if(YesOrNoChecker(inputs[0]) == 2){
+            return;
+        }
+
+        while(active){
+
+            System.out.print("Do you want to add a new employee or delete an employee?\n"+
+            "Enter Y to add an employee.\n"+
+            "Enter N to delete an employee.\n");
+            inputs[0] = keyboard.nextLine();
+
+            if(YesOrNoChecker(inputs[0]) == 1){
+                System.out.print("Are you sure you want to add an employee?\n");
+                inputs[0] = keyboard.nextLine();
+
+                if(YesOrNoChecker(inputs[0]) == 1){
+                    try{
+                        try{
+                            while(true){
+                                encryptor.ReadFromFile(FileSelect.password, passwordAmount);
+                                passwordAmount += 1;
+                            }
+                        }catch(EOFException amountReached){
+                            //This will occur when the end of the file is reached.
+                        } 
+                    }catch(IOException amountReached){
+                        //This may occur when the end of the file is reached.
+                    }
+                    try {
+                        encryptor.toEncrypt(passwordCreator.GeneratePassword(), FileSelect.password, passwordAmount);
+                        System.out.print("New password generated. Password for employee #" + passwordAmount+
+                        "\nThe password for this employee is: " + encryptor.getUnencrypted(FileSelect.password, passwordAmount));
+                    } catch (IOException passwordNumberTooHigh) {
+                        System.out.print("ERROR: did not create password.");
+                    }
+                }
+
+            }else if(YesOrNoChecker(inputs[0]) == 2){
+                System.out.print("Are you sure you want to remove an employee?");
+                inputs[0] = keyboard.nextLine();
+                if(YesOrNoChecker(inputs[0]) == 1){
+                    while(active){
+                        System.out.print("Enter the assigned number of that employee.");
+                        inputs[1] = keyboard.nextLine();
+
+                        System.out.print("Are you sure you want to delete Employee #" + inputs[1] + "? Reminder that this would change the id of all employees after employee #"+ inputs[1] +"\nYes/No");
+                        inputs[0] = keyboard.nextLine();
+                        if(YesOrNoChecker(inputs[0]) != 3)
+                        active = false;
+                    }
+                    active = true;
+                    if(YesOrNoChecker(inputs[0]) == 1){
+                        
+                        try {
+                            if(TheseStringsAreEqual(inputs[1], "0") || Integer.parseInt(inputs[1]) < 1)
+                            throw new IOException();
+                            encryptor.toEncrypt(passwordCreator.GeneratePassword(), FileSelect.password, Integer.parseInt(inputs[1]));
+                            System.out.print("Eployee #" + inputs[1] + "succesfully deleted.");
+                        } catch (IOException passwordNumberTooHigh) {
+                            System.out.print("ERROR: Failed to properly delete employee.");
+                        }
+                    }
+                }
+            }
+
+            inputs[0] = " ";
+            while(YesOrNoChecker(inputs[0]) == 3){
+            System.out.print("Do you still want to edit employees?\n"+
+            "Y/N");
+            inputs[0] = keyboard.nextLine();
+
+            }
+            if(YesOrNoChecker(inputs[0]) == 2)
+            active = false;
+
+
+        }
+
+    }
     
     public void NewAstronaut() {
        System.out.println("How many astronauts will be on this mission?");
@@ -144,25 +235,24 @@ public class UserInput {
         boolean tryData = true;
 
         while(tryData){
-       //Display input information for verification.
-       System.out.println("The astronauts info: \nName: " + inputs[0] + "\nEmail: " + inputs[1] + "\nAddress: " + inputs[2] +
-        "\nPhone number: " + inputs[3] + "\nDate of birth: " + inputs[4] + "\nNext of kin: " + inputs[5] + 
-        "\nRank: " + inputs[6] + "\nWeight " + inputs[7] + "\nPay rate: " + inputs[8] + "\nSocial security number: " + inputs[9]);
+        //Display input information for verification.
+        System.out.println("The astronauts info: \nName: " + inputs[0] + "\nEmail: " + inputs[1] + "\nAddress: " + inputs[2] +
+            "\nPhone number: " + inputs[3] + "\nDate of birth: " + inputs[4] + "\nNext of kin: " + inputs[5] + 
+            "\nRank: " + inputs[6] + "\nWeight " + inputs[7] + "\nPay rate: " + inputs[8] + "\nSocial security number: " + inputs[9]);
 
-        //Verify
-        System.out.println("Is this information correct? \nY/N");
-        confirmation = keyboard.nextLine();
+            while(YesOrNoChecker(confirmation) == 3){
+                //Verify
+                System.out.println("Is this information correct? \nY/N");
+                confirmation = keyboard.nextLine();
 
-            if(YesOrNoChecker(confirmation) == 1){
-                tryData = false;
+                    if(YesOrNoChecker(confirmation) == 1){
+                        tryData = false;
+                    }
+
             }
         }
         
-        if(Character.toLowerCase(confirmation.charAt(0)) == 'y'){
-            no = false;
         }
-        
-       }
 
        
        keyboard.close();
@@ -187,10 +277,19 @@ public class UserInput {
 
         if(YesOrNoChecker(inputs[0]) == 1){
 
-            //add stuff for checking if the admin has the right info.
-            // if(){ 
-                return true;
-            // }
+            System.out.print("Enter the admin password.\n");
+            inputs[1] = keyboard.nextLine();
+
+            try {
+                if(TheseStringsAreEqual(inputs[1], encryptor.getUnencrypted(FileSelect.password, 0))){ 
+                    return true;
+                }else{
+                    System.out.print("Sorry, that doesn't match. Either your code or password was wrong. Just in case you bumped yes here as an employee, we must ask...\n");
+                }
+            } catch (IOException AdminPasswordDoesNotExist) {
+                //END CODE. THIS MEANS SOMEONE IS MESSING WITH FILES DURING OPERATION.
+                AdminPasswordDoesNotExist.printStackTrace();
+            }
 
         }
         return false;
@@ -220,10 +319,11 @@ public class UserInput {
                     passwordAmount += 1;
                 }
                 }catch(EOFException amountReached){
-                    throw new IOException();
+                    counterOn = false;
                 } 
             }catch(IOException amountReached){
                 //This will occur when the end of the file is reached.
+                counterOn = false;
             }
 
             try{
