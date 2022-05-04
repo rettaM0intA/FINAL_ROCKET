@@ -41,6 +41,7 @@ public class UserInput {
     public void FirstRun(){
         if(passwordCreator.CreateAdminPassword(encryptor)){
             try {
+                System.out.print("Admin Password: " + encryptor.getUnencrypted(FileSelect.password, 0) + "\n");
                 encryptor.toEncrypt(passwordCreator.GeneratePassword(), FileSelect.password, 1);
                 System.out.print("\nHello and welcome new admin. The following are the key and the deletion password password. Keep them safe and only share with employees.\n"+
                 "Deletion password: " + encryptor.getUnencrypted(FileSelect.password, 1) +
@@ -153,7 +154,7 @@ public class UserInput {
                     try {
                         encryptor.toEncrypt(passwordCreator.GeneratePassword(), FileSelect.password, passwordAmount);
                         System.out.print("New password generated. Password for employee #" + passwordAmount+
-                        "\nThe password for this employee is: " + encryptor.getUnencrypted(FileSelect.password, passwordAmount));
+                        "\nThe password for this employee is: " + encryptor.getUnencrypted(FileSelect.password, passwordAmount) + "\n");
                     } catch (IOException passwordNumberTooHigh) {
                         System.out.print("ERROR: did not create password.");
                     }
@@ -373,6 +374,9 @@ public class UserInput {
 
         if(YesOrNoChecker(inputs[0]) == 1){
 
+            System.out.print("Enter your password\n");
+            inputs[1] = keyboard.nextLine();
+
             int passwordAmount = 0;
 
             //Find out how many passwords there are by reading passwords until there is no password found.
@@ -381,8 +385,8 @@ public class UserInput {
             try{
 
             for(int i = 1; i < passwordAmount; i++){
-                inputs[1] = encryptor.getUnencrypted(FileSelect.password, i);
-                if(TheseStringsAreEqual(inputs[0], inputs[1])){
+                inputs[2] = encryptor.getUnencrypted(FileSelect.password, i);
+                if(TheseStringsAreEqual(inputs[1], inputs[2])){
                     return true;
                 }
             }
