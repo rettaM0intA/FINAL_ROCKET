@@ -41,7 +41,8 @@ public class UserInput {
     public void FirstRun(){
         if(passwordCreator.CreateAdminPassword(encryptor)){
             try {
-                System.out.print("\nHello and welcome new admin. The following are the key and your password. Keep them safe.\n"+
+                encryptor.toEncrypt(passwordCreator.GeneratePassword(), FileSelect.password, 1);
+                System.out.print("\nHello and welcome new admin. The following are the key and the deletion password password. Keep them safe and only share with employees.\n"+
                 "Deletion password: " + encryptor.getUnencrypted(FileSelect.password, 1) +
                 "\nKey: " + encryptor.getCurrentSeed());
             } catch (IOException encryptorBroke) {
@@ -100,6 +101,7 @@ public class UserInput {
             seed = Integer.parseInt(inputs[0]);
             } catch(NumberFormatException invalidInput){
                 System.out.print("\nInvalid input.");
+                seed = 0;
             }
 
             if(seed < 0){
@@ -107,6 +109,13 @@ public class UserInput {
             }
 
         } while (seed <= 0);
+
+        try {
+            encryptor = new Encryptor(astroInfo.fileName, rocketInfo.fileName, passwordCreator.fileName, seed);
+        } catch (Exception invalidFilePath) {
+            //END CODE. THIS MEANS SOMEONE IS MESSING WITH FILES DURING OPERATION OR THERE WAS IMPROPER AUGNMENTATION OF THE CODE.
+            invalidFilePath.printStackTrace();
+        }
     }
 
     /**
@@ -196,52 +205,69 @@ public class UserInput {
     /**
      * Has the user create a new astronaut and add them to the list.
      */
-    public void NewAstronaut() {
-       
-        inputs[10] = "";
+    public void EditAstronauts() {
 
-        while(YesOrNoChecker(inputs[10]) != 2){
-        System.out.println("What is the astronauts name?");
-        inputs[0] = keyboard.nextLine();
-        keyboard.nextLine();
-        System.out.println("What is the astronauts Email?");
-        inputs[1] = keyboard.nextLine();
-        System.out.println("What is the astronauts address?");
-        inputs[2] = keyboard.nextLine();
-        System.out.println("What is the astronauts phone number?");
-        inputs[3] = keyboard.nextLine();
-        System.out.println("What is the astronauts date of birth?");
-        inputs[4] = keyboard.nextLine();
-        System.out.println("What is the astronauts next of kin?");
-        inputs[5] = keyboard.nextLine();
-        System.out.println("What is the astronauts rank?");
-        inputs[6] = keyboard.nextLine();
-        System.out.println("What does the astronaut weigh?");
-        inputs[7] = Double.toString(keyboard.nextDouble());
-        System.out.println("What is the astronauts pay?");
-        inputs[8] = Double.toString(keyboard.nextDouble());
-        System.out.println("What is the astronauts social security number?");
-        inputs[9] = keyboard.nextLine();
+        inputs[15] = " ";
 
-            while(YesOrNoChecker(inputs[10]) != 1){
-            //Display input information for verification.
-            System.out.println("The astronauts info: \nName: " + inputs[0] + "\nEmail: " + inputs[1] + "\nAddress: " + inputs[2] +
-                "\nPhone number: " + inputs[3] + "\nDate of birth: " + inputs[4] + "\nNext of kin: " + inputs[5] + 
-                "\nRank: " + inputs[6] + "\nWeight " + inputs[7] + "\nPay rate: " + inputs[8] + "\nSocial security number: " + inputs[9]);
+        while(YesOrNoChecker(inputs[15]) == 3){
 
-                while(YesOrNoChecker(inputs[11]) == 3){
-                    //Verify
-                    System.out.println("Is this information correct? \nY/N");
-                    inputs[11] = keyboard.nextLine();
-
-                }
-                if(YesOrNoChecker(inputs[11]) == 1){
-                    astroInfo.CreateAstronaut(inputs, encryptor, -1);
-                }
-            }
-            System.out.print("Do you want to make another astronaut?\nYes or No\n");
+            System.out.print("Do you want to add an Astronaut?\nY/N\n");
             inputs[10] = keyboard.nextLine();
-        
+
+            if(YesOrNoChecker(inputs[10]) == 1){
+       
+                inputs[10] = "";
+
+                while(YesOrNoChecker(inputs[10]) != 2){
+                    System.out.println("What is the astronauts name?");
+                    inputs[0] = keyboard.nextLine();
+                    keyboard.nextLine();
+                    System.out.println("What is the astronauts Email?");
+                    inputs[1] = keyboard.nextLine();
+                    System.out.println("What is the astronauts address?");
+                    inputs[2] = keyboard.nextLine();
+                    System.out.println("What is the astronauts phone number?");
+                    inputs[3] = keyboard.nextLine();
+                    System.out.println("What is the astronauts date of birth?");
+                    inputs[4] = keyboard.nextLine();
+                    System.out.println("What is the astronauts next of kin?");
+                    inputs[5] = keyboard.nextLine();
+                    System.out.println("What is the astronauts rank?");
+                    inputs[6] = keyboard.nextLine();
+                    System.out.println("What does the astronaut weigh?");
+                    inputs[7] = Double.toString(keyboard.nextDouble());
+                    System.out.println("What is the astronauts pay?");
+                    inputs[8] = Double.toString(keyboard.nextDouble());
+                    System.out.println("What is the astronauts social security number?");
+                    inputs[9] = keyboard.nextLine();
+
+                        while(YesOrNoChecker(inputs[10]) != 1){
+                        //Display input information for verification.
+                        System.out.println("The astronauts info: \nName: " + inputs[0] + "\nEmail: " + inputs[1] + "\nAddress: " + inputs[2] +
+                            "\nPhone number: " + inputs[3] + "\nDate of birth: " + inputs[4] + "\nNext of kin: " + inputs[5] + 
+                            "\nRank: " + inputs[6] + "\nWeight " + inputs[7] + "\nPay rate: " + inputs[8] + "\nSocial security number: " + inputs[9]);
+
+                            while(YesOrNoChecker(inputs[11]) == 3){
+                                //Verify
+                                System.out.println("Is this information correct? \nY/N");
+                                inputs[11] = keyboard.nextLine();
+
+                            }
+                            if(YesOrNoChecker(inputs[11]) == 1){
+                                astroInfo.CreateAstronaut(inputs, encryptor, -1);
+                            }
+                        }
+
+                        inputs[11] = " ";
+
+                        System.out.print("Do you want to make another astronaut?\nYes or No\n");
+                        inputs[10] = keyboard.nextLine();
+                
+                }
+            }else{
+                System.out.print("Do you want to add an Astronaut?\nY/N\n");
+                inputs[10] = keyboard.nextLine();
+            }
         }
 
     }
