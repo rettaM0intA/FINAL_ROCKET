@@ -12,7 +12,7 @@ public class AstronautInfo{
         if(astronautNumber < 0){
             for(int i = 0; i < 10; i++){
                 try {
-                    encryptor.toEncrypt(inputs[i], FileSelect.astronaut, i + encryptor.HowManyItemsInFile(FileSelect.astronaut));
+                    encryptor.toEncrypt(inputs[i], FileSelect.astronaut, i + encryptor.HowManyItemsInFile(FileSelect.astronaut) - 1);
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -23,11 +23,24 @@ public class AstronautInfo{
             for(int i = 0; i < 10; i++){
                 try {
                     encryptor.toEncrypt(inputs[i], FileSelect.astronaut, i + 8 * astronautNumber);
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                } catch (IOException InvalidFilePath) {
+                    //Someone messed with save files manually or the code.
+                    System.out.print("Data corruption error. Reset program. If error persists, contact creator.");
                 }
             }
         }
+    }
+
+    public void RemoveAstronaut(int astronautNumber, Encryptor encryptor){
+
+        for(int i = 0; i < 10; i++){
+            try {
+                encryptor.toEncrypt("", FileSelect.astronaut, i + 8 * astronautNumber);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
     }
 }

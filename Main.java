@@ -40,6 +40,7 @@ public class Main {
 
             }else if(Integer.parseInt(inputs[0]) == 2){
                 //Call Rocket management menu
+                ui.ViewData(FileSelect.astronaut);
 
             }else if(Integer.parseInt(inputs[0]) == 3){
                 //Call Configure Launch menu

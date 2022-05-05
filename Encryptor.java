@@ -69,6 +69,10 @@ public class Encryptor {
         random = new Random();
         seed = random.nextInt(999999999);
 
+        random = new Random(seed);
+
+        randomChange = random.nextInt(4);
+
         if(errorCodes.length() > 0){
             throw new Exception(errorCodes);
         }
@@ -119,7 +123,7 @@ public class Encryptor {
 
         Random randoma = new Random(seed);
 
-        // randomChange = randoma.nextInt(4);
+        randomChange = randoma.nextInt(4);
         
         if(errorCodes.length() > 0){
             throw new Exception(errorCodes);
@@ -139,7 +143,6 @@ public class Encryptor {
 
         File chosenFile;
 
-        int itemSize = 0;
         byte[] writtingByte = new byte[1];
         int existingEntryAmount = 0;
 
@@ -181,34 +184,28 @@ public class Encryptor {
         FileOutputStream fOutputStream = new FileOutputStream(chosenFile);
         DataOutputStream dOutputStream = new DataOutputStream(fOutputStream);
 
+        //Writes all previous entries into the file.
         if(output.length > 0 && itemNumber > 0){
             for(int i = 0; i < itemNumber; i++){
                 
-                // output[i] = output[i].substring(4, output[i].length());
-
-                // //write the length of the first previous entry.
-                // writtingByte[0] = (byte)((int)output[i].length() + random.nextInt(randomChange));
-                // dOutputStream.write(writtingByte);
-
-                // output[0] = "4Alex";
-
-                writtingByte[0] = (byte)(output[i].length());
+                //Write the length of the entry
+                writtingByte[0] = (byte)(output[i].length() + (randomChange));
                 dOutputStream.write(writtingByte);
 
-                //Write all pieces of the previous entries
+                //Write all pieces of the entry
                 for(int j = 0; j < output[i].length(); j++){
                     writtingByte[0] = (byte)((int)output[i].charAt(j) + (randomChange));
-                    // writtingByte[0] = (byte)(output[0].charAt(j));
                     dOutputStream.write(writtingByte);
                 }
 
             }
         }
 
+        //writes the currently being changed entry to the file.
         if(input.length() > 0){
         
             //Write the length of the Input
-            writtingByte[0] = (byte)(input.length());
+            writtingByte[0] = (byte)(input.length() + (randomChange));
             dOutputStream.write(writtingByte);
 
             //Write all pieces of the Input
@@ -233,7 +230,7 @@ public class Encryptor {
 
                 // output[0] = "4Alex";
 
-                writtingByte[0] = (byte)(output[i].length());
+                writtingByte[0] = (byte)(output[i].length() + (randomChange));
                 dOutputStream.write(writtingByte);
 
                 //Write all pieces of the previous entries
@@ -295,7 +292,7 @@ public class Encryptor {
         DataInputStream dataInputStream = new DataInputStream(fileInputStream);
 
         try{
-            encryptedDataSize = ((int)dataInputStream.readByte());// - (randomChange));
+            encryptedDataSize = ((int)dataInputStream.readByte() - (randomChange));
         }catch(EOFException EndedEarlyException){
             dataInputStream.close();
             throw new IOException();
@@ -336,7 +333,7 @@ public class Encryptor {
                             currentByte = dataInputStream.readByte();
                         }
 
-                        encryptedDataSize = currentByte;
+                        encryptedDataSize = currentByte - (randomChange);
                         
                     }
 
