@@ -387,14 +387,14 @@ public class Encryptor {
     public int HowManyItemsInFile(FileSelect selectedFile){
         
         boolean counterOn = true;
-        int passwordAmount = 0;
+        int itemAmount = 0;
 
         //Find out how many passwords there are by reading passwords until there is no password found.
         try{
             try{
             while(counterOn){
-                this.ReadFromFile(FileSelect.password, passwordAmount+1);
-                passwordAmount += 1;
+                this.ReadFromFile(FileSelect.password, itemAmount+1);
+                itemAmount += 1;
             }
             }catch(EOFException amountReached){
                 counterOn = false;
@@ -404,7 +404,7 @@ public class Encryptor {
             counterOn = false;
         }
 
-        return passwordAmount;
+        return itemAmount;
     }
 
     /**

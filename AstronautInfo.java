@@ -33,9 +33,9 @@ public class AstronautInfo{
 
     public void RemoveAstronaut(int astronautNumber, Encryptor encryptor){
 
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 9; i++){
             try {
-                encryptor.toEncrypt("", FileSelect.astronaut, i + 8 * astronautNumber);
+                encryptor.toEncrypt("", FileSelect.astronaut, (8 * astronautNumber));
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
